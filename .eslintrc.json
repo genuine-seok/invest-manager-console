@@ -38,6 +38,7 @@
     "jsx-a11y/no-noninteractive-element-interactions": 0, // non-interactive 태그에 이벤트 할당 제한
     "@typescript-eslint/explicit-module-boundary-types": 0, // ts 함수의 인수, 리턴 타입 정의
     "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/no-var-requires": 0,
     "no-param-reassign": 0, // 매게 변수 재할당 금지 (toolkit reducer 한정)
     "jsx-a11y/click-events-have-key-events": 0,
     "jsx-a11y/no-static-element-interactions": 0

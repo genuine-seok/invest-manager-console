@@ -1,22 +1,43 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "esnext", //
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve", // "jsx": "react-jsx"
+    // "jsx": "preserve", // "jsx": "react-jsx"
+    "jsx": "preserve",
     "incremental": true,
     "allowSyntheticDefaultImports": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "outDir": "./dist",
+    "noImplicitAny": true,
+    "sourceMap": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "ts-node": {
+    // TypeError [ERR_UNKNOWN_FILE_EXTENSION]: Unknown file extension ".ts" 해결
+    "esm": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    ".husky"
+  ]
 }
