@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -29,15 +25,6 @@
     // TypeError [ERR_UNKNOWN_FILE_EXTENSION]: Unknown file extension ".ts" 해결
     "esm": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.cts"
-  ],
-  "exclude": [
-    "node_modules",
-    ".next",
-    ".husky"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cts"],
+  "exclude": ["node_modules", ".next", ".husky"]
 }
