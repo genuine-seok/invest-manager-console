@@ -1604,6 +1604,11 @@
       "email": "admin@admin.co.kr",
       "password": "$2a$10$4qtWDF6He.8YJnXChQI06./wYSCPTDems37MmsAFtcjG8MhmCcAjW",
       "id": 101
+    },
+    {
+      "email": "newface@dco.com",
+      "password": "$2a$10$1UrzREt/zI3rJ9n9UfUGme9qATsK0rSA7KuFy5QtuFDry.025S2uO",
+      "id": 102
     }
   ],
   "userSetting": [

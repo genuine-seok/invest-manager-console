@@ -3,6 +3,7 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 
 const jsonServer = require("json-server");
+const cors = require("cors");
 
 const auth = require("json-server-auth");
 
@@ -17,6 +18,7 @@ const rules = auth.rewriter({
 });
 
 app.use(rules);
+app.use(cors());
 app.use(auth);
 app.use(router);
 
