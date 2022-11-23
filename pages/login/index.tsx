@@ -2,24 +2,18 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, Layout, Row } from "antd";
 import { useRouter } from "next/router";
 
-import { httpClient } from "../../src/api/api";
-import { AuthServiceImp } from "../../src/api/AuthService";
-import { TokenRepositoryImp } from "../../src/api/TokenRepository";
+import { useAuth } from "../../src/context/AuthContext";
 import { UserData } from "../../src/types";
-
-const tokenRepository = new TokenRepositoryImp();
-const authService = new AuthServiceImp(httpClient, tokenRepository);
 
 const { Content } = Layout;
 
 export default function Login() {
   const router = useRouter();
+  const { signIn } = useAuth();
   const goHome = () => router.push("/");
 
   const onFinish = async (data: UserData) => {
-    // TODO: (useAuth : custom hook으로 리팩토링)
-    // const { signIn, signUp, logout } = useAuth();
-    const res = await authService.signIn(data);
+    const res = await signIn(data);
     if (res.result === "success") {
       goHome();
     } else {

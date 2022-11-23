@@ -9,12 +9,9 @@ import { useRouter } from "next/router";
 import { MenuInfo } from "rc-menu/lib/interface";
 import React, { ReactNode } from "react";
 
-import { AuthServiceImp, httpClient, TokenRepositoryImp } from "../api";
+import { useAuth } from "../context/AuthContext";
 import { routes } from "../routes";
 import { getMenuByKey } from "../utils";
-
-const tokenRepository = new TokenRepositoryImp();
-const authService = new AuthServiceImp(httpClient, tokenRepository);
 
 const { Content, Sider } = Layout;
 
@@ -44,10 +41,7 @@ const items: MenuItem[] = [
 export function MainLayout({ children }: MainLayoutProps) {
   // const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
-
-  const logout = () => {
-    authService.logout();
-  };
+  const { logout } = useAuth();
 
   const handleClick = ({ key }: MenuInfo) => {
     const menu = getMenuByKey(key);

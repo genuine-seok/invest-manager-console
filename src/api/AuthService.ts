@@ -12,7 +12,7 @@ type SuccessState = {
   result: "success";
   data: any;
 };
-type ResultState = SuccessState | NetworkErrorState;
+export type ResultState = SuccessState | NetworkErrorState;
 
 interface AuthService {
   signIn: (data: UserData) => Promise<ResultState>;
