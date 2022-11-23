@@ -8,7 +8,7 @@ const cors = require("cors");
 const auth = require("json-server-auth");
 
 const app = jsonServer.create();
-const router = jsonServer.router("db.json");
+const router = jsonServer.router("./src/data/db.json");
 
 app.db = router.db;
 const rules = auth.rewriter({

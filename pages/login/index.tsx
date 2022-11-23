@@ -1,20 +1,35 @@
-import { Button, Col, Form, Image, Input, Layout, Row } from "antd";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Col, Form, Input, Layout, Row } from "antd";
 import { useRouter } from "next/router";
+
+import { httpClient } from "../../src/api/api";
+import { AuthServiceImp } from "../../src/api/AuthService";
+import { TokenRepositoryImp } from "../../src/api/TokenRepository";
+import { UserData } from "../../src/types";
+
+const tokenRepository = new TokenRepositoryImp();
+const authService = new AuthServiceImp(httpClient, tokenRepository);
 
 const { Content } = Layout;
 
 export default function Login() {
   const router = useRouter();
-
   const goHome = () => router.push("/");
 
+  const onFinish = async (data: UserData) => {
+    // TODO: (useAuth : custom hook으로 리팩토링)
+    // const { signIn, signUp, logout } = useAuth();
+    const res = await authService.signIn(data);
+    if (res.result === "success") {
+      goHome();
+    } else {
+      // TODO: 에러 메시지 UI 표기 로직 추가
+      console.log(res.reason);
+    }
+  };
+
   return (
-    <Layout
-      style={{
-        width: "100%",
-        minHeight: "100vh",
-      }}
-    >
+    <Layout>
       <Row justify="center" align="middle" style={{ height: "100vh" }}>
         <Col
           span={6}
@@ -22,10 +37,10 @@ export default function Login() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: "48px",
+            gap: "32px",
           }}
         >
-          <Image width="120px" src="/images/img_logo_preface.png" />
+          <h1>로그인</h1>
           <Content
             style={{
               background: "white",
@@ -34,19 +49,31 @@ export default function Login() {
               borderRadius: "4px",
             }}
           >
-            <Form onFinish={goHome}>
-              {/* <h1>로그인</h1> */}
+            <Form
+              onFinish={onFinish}
+              // TODO: UI validation 로직 추가
+              // onValuesChange={(cV, v) => {
+              //   console.log(cV);
+              //   console.log(v);
+              // }}
+            >
               <Form.Item
-                name="username"
+                name="email"
                 rules={[{ required: true, message: "아이디를 입력하세요" }]}
               >
-                <Input placeholder="아이디를 입력하세요" />
+                <Input
+                  prefix={<UserOutlined />}
+                  placeholder="아이디를 입력하세요"
+                />
               </Form.Item>
               <Form.Item
                 name="password"
                 rules={[{ required: true, message: "비밀번호를 입력하세요" }]}
               >
-                <Input.Password placeholder="비밀번호를 입력하세요" />
+                <Input.Password
+                  prefix={<LockOutlined />}
+                  placeholder="비밀번호를 입력하세요"
+                />
               </Form.Item>
               <Form.Item>
                 <Button

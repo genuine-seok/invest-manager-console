@@ -1,8 +1,7 @@
 import { Table } from "antd";
 import { ReactElement } from "react";
 
-import MainLayout from "../../components/MainLayout";
-import { PageLayout } from "../../components/PageLayout";
+import { MainLayout, PageLayout } from "../../src/components";
 import { NextPageWithLayout } from "../_app";
 
 const accountHeader = {

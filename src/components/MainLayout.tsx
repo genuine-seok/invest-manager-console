@@ -5,38 +5,57 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Image, Layout, Menu, MenuProps } from "antd";
-import Link from "next/link";
-import React, { ReactNode, useState } from "react";
+import { useRouter } from "next/router";
+import { MenuInfo } from "rc-menu/lib/interface";
+import React, { ReactNode } from "react";
 
-const { Header, Content, Sider } = Layout;
+import { AuthServiceImp, httpClient, TokenRepositoryImp } from "../api";
+import { routes } from "../routes";
+import { getMenuByKey } from "../utils";
+
+const tokenRepository = new TokenRepositoryImp();
+const authService = new AuthServiceImp(httpClient, tokenRepository);
+
+const { Content, Sider } = Layout;
 
 interface MainLayoutProps {
   children: ReactNode;
 }
 
-const Menus = ["대시보드", "계좌 목록", "사용자", "로그아웃"];
-const Icons = [DashboardOutlined, StockOutlined, UserOutlined, LogoutOutlined];
-const Routes = ["/", "/accounts", "/users", "/login"];
-const MenuItems = Icons.map((icon, i) => {
-  return (
-    <Link href={`${Routes[i]}`} key={Menus[i]}>
-      {React.createElement(icon)}
-    </Link>
-  );
-});
+type MenuItem = Required<MenuProps>["items"][number];
 
-const items = Menus.map((label, index) => {
-  const key = String(index + 1);
+const getItem = (
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: "group"
+) => {
+  return { key, icon, children, label, type };
+};
 
-  return {
-    key: `sub${key}`,
-    label,
-    icon: MenuItems[index],
-  };
-});
+const items: MenuItem[] = [
+  getItem("대시보드", "1", <DashboardOutlined />),
+  getItem("계좌 목록", "2", <StockOutlined />),
+  getItem("사용자", "3", <UserOutlined />),
+  getItem("로그아웃", "4", <LogoutOutlined />),
+];
 
-export default function MainLayout({ children }: MainLayoutProps) {
+export function MainLayout({ children }: MainLayoutProps) {
   // const [collapsed, setCollapsed] = useState(false);
+  const router = useRouter();
+
+  const logout = () => {
+    authService.logout();
+  };
+
+  const handleClick = ({ key }: MenuInfo) => {
+    const menu = getMenuByKey(key);
+    if (menu === "LOGOUT") {
+      logout();
+    }
+    router.push(routes[menu]);
+  };
 
   return (
     <Layout>
@@ -63,6 +82,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
           defaultOpenKeys={["sub1"]}
           style={{ height: "100%", borderRight: 0 }}
           items={items}
+          onClick={handleClick}
         />
       </Sider>
       <Layout style={{ marginLeft: 200 }}>{children}</Layout>
