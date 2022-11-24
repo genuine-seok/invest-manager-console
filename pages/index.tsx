@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-import { MainLayout, PageLayout } from "../src/components";
+import { PageLayout, Private } from "../src/components";
 import { NextPageWithLayout } from "./_app";
 
 // eslint-disable-next-line no-empty-pattern
@@ -10,8 +10,8 @@ export default function Home({}: NextPageWithLayout) {
 
 Home.getLayout = function getLayout(page: ReactElement) {
   return (
-    <MainLayout>
+    <Private>
       <PageLayout title="대시보드">{page}</PageLayout>
-    </MainLayout>
+    </Private>
   );
 };

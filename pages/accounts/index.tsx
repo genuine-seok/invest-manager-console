@@ -1,7 +1,7 @@
 import { Table } from "antd";
 import { ReactElement } from "react";
 
-import { MainLayout, PageLayout } from "../../src/components";
+import { PageLayout, Private } from "../../src/components";
 import { NextPageWithLayout } from "../_app";
 
 const accountHeader = {
@@ -93,8 +93,8 @@ export default function Accounts({}: NextPageWithLayout) {
 
 Accounts.getLayout = function getLayout(page: ReactElement) {
   return (
-    <MainLayout>
+    <Private>
       <PageLayout title="계좌 목록">{page}</PageLayout>
-    </MainLayout>
+    </Private>
   );
 };

@@ -6,6 +6,7 @@ import { UserData } from "../types";
 interface State {
   signIn: (data: UserData) => Promise<ResultState>;
   logout: () => void;
+  getToken: () => string | null;
 }
 
 const AuthContext = createContext<State | null>(null);
@@ -18,11 +19,13 @@ export function AuthProvider({
   authService: AuthServiceImp;
 }) {
   const signIn = authService.signIn.bind(authService);
+  const getToken = authService.getToken.bind(authService);
   const logout = authService.logout.bind(authService);
 
   const value = useMemo(
     () => ({
       signIn,
+      getToken,
       logout,
     }),
     []

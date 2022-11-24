@@ -7,15 +7,15 @@ import {
 import { Image, Layout, Menu, MenuProps } from "antd";
 import { useRouter } from "next/router";
 import { MenuInfo } from "rc-menu/lib/interface";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 
-import { useAuth } from "../context/AuthContext";
-import { routes } from "../routes";
-import { getMenuByKey } from "../utils";
+import { useAuth } from "../../context/AuthContext";
+import { routes } from "../../routes";
+import { getMenuByKey } from "../../utils";
 
 const { Content, Sider } = Layout;
 
-interface MainLayoutProps {
+interface PrivateProps {
   children: ReactNode;
 }
 
@@ -38,10 +38,12 @@ const items: MenuItem[] = [
   getItem("로그아웃", "4", <LogoutOutlined />),
 ];
 
-export function MainLayout({ children }: MainLayoutProps) {
+export function Private({ children }: PrivateProps) {
   // const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
-  const { logout } = useAuth();
+  const { logout, getToken } = useAuth();
+
+  const redirectToPublic = () => router.push(routes.LOGOUT);
 
   const handleClick = ({ key }: MenuInfo) => {
     const menu = getMenuByKey(key);
@@ -50,6 +52,11 @@ export function MainLayout({ children }: MainLayoutProps) {
     }
     router.push(routes[menu]);
   };
+
+  useEffect(() => {
+    const isLoggedIn = !!getToken();
+    if (!isLoggedIn) redirectToPublic();
+  });
 
   return (
     <Layout>
@@ -73,7 +80,7 @@ export function MainLayout({ children }: MainLayoutProps) {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
+          // defaultOpenKeys={["sub1"]}
           style={{ height: "100%", borderRight: 0 }}
           items={items}
           onClick={handleClick}

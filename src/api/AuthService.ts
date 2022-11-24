@@ -16,6 +16,7 @@ export type ResultState = SuccessState | NetworkErrorState;
 
 interface AuthService {
   signIn: (data: UserData) => Promise<ResultState>;
+  getToken: () => string | null;
   logout: () => void;
 }
 
@@ -44,6 +45,10 @@ export class AuthServiceImp implements AuthService {
         reason: getErrorMessage(error),
       };
     }
+  }
+
+  getToken() {
+    return this.tokenRepository.get();
   }
 
   logout() {

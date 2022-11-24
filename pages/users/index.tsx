@@ -1,7 +1,7 @@
 import { Table } from "antd";
 import { ReactElement } from "react";
 
-import { MainLayout, PageLayout } from "../../src/components";
+import { PageLayout, Private } from "../../src/components";
 import { NextPageWithLayout } from "../_app";
 
 const userHeader = {
@@ -174,8 +174,8 @@ export default function Users({}: NextPageWithLayout) {
 
 Users.getLayout = function getLayout(page: ReactElement) {
   return (
-    <MainLayout>
+    <Private>
       <PageLayout title="사용자 목록">{page}</PageLayout>
-    </MainLayout>
+    </Private>
   );
 };
