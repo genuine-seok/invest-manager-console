@@ -1,5 +1,5 @@
 import { Table } from "antd";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 
 import { PageLayout, Private } from "../../src/components/common";
 import { NextPageWithLayout } from "../_app";
@@ -88,7 +88,25 @@ const columns = Object.entries(accountHeader).map(([key, val]) => {
 
 // eslint-disable-next-line no-empty-pattern
 export default function Accounts({}: NextPageWithLayout) {
-  return <Table dataSource={dataSource} columns={columns} />;
+  // TODO: accounts, users의 페이지의 데이터 총 개수를 업데이트하는 util 훅으로 분리 (usePageData)
+  // + pageOption도 묶어서 제공
+  const [total, setTotal] = useState(0);
+
+  return (
+    <Table
+      size="small"
+      dataSource={dataSource}
+      columns={columns}
+      pagination={{
+        defaultPageSize: 20,
+        total,
+        showTotal: (total) => `Total ${total} items`,
+        onChange: (page, pageSize) => {
+          console.log(page, pageSize);
+        },
+      }}
+    />
+  );
 }
 
 Accounts.getLayout = function getLayout(page: ReactElement) {

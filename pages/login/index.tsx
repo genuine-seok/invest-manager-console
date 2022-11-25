@@ -5,7 +5,7 @@ import { ReactElement } from "react";
 
 import { Public } from "../../src/components/common/Public";
 import { useAuth } from "../../src/context/AuthContext";
-import { UserData } from "../../src/types";
+import { LoginData } from "../../src/types";
 import { NextPageWithLayout } from "../_app";
 
 const { Content } = Layout;
@@ -16,7 +16,7 @@ export default function Login({}: NextPageWithLayout) {
   const { signIn } = useAuth();
   const goHome = () => router.push("/");
 
-  const onFinish = async (data: UserData) => {
+  const onFinish = async (data: LoginData) => {
     const res = await signIn(data);
     if (res.result === "success") {
       goHome();

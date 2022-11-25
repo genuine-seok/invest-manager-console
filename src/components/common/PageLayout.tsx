@@ -14,8 +14,9 @@ export function PageLayout({ children, title }: PageLayoutProps) {
       <Header style={{ background: "white" }}>{title}</Header>
       <Content
         style={{
+          background: "white",
           margin: "24px 16px 0",
-          overflow: "initial",
+          overflow: "auto",
           padding: 12,
           minHeight: "100vh",
         }}

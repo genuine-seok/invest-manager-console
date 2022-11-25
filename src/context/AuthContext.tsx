@@ -1,10 +1,10 @@
 import { createContext, ReactNode, useContext, useMemo } from "react";
 
-import { AuthServiceImp, ResultState } from "../api";
-import { UserData } from "../types";
+import { AuthServiceImp } from "../api";
+import { LoginData, ResultState } from "../types";
 
 interface State {
-  signIn: (data: UserData) => Promise<ResultState>;
+  signIn: (data: LoginData) => Promise<ResultState>;
   logout: () => void;
   getToken: () => string | null;
 }
