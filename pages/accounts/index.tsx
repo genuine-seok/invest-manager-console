@@ -1,13 +1,13 @@
 import { Table } from "antd";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 
 import { PageLayout, Private } from "../../src/components/common";
+import { useAccounts } from "../../src/hooks";
 import { NextPageWithLayout } from "../_app";
 
 const accountHeader = {
-  id: "id",
-  user_name: "사용자 이름",
   broker_name: "증권사",
+  user_name: "고객명", // TODO: user_id 변환
   number: "계좌번호",
   status: "계좌상태",
   name: "계좌명",
@@ -17,72 +17,17 @@ const accountHeader = {
   created_at: "계좌개설일",
 };
 
-interface AccountType {
-  id: number;
-  user_id: number;
-  uuid: string;
-  broker_id: string;
-  status: number;
-  number: string;
-  name: string;
-  assets: string;
-  payments: string;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-}
-
-const accounts: Array<AccountType> = [
-  {
-    id: 1,
-    user_id: 1,
-    uuid: "8b19490c-9be5-4534-9ca9-b4523f938b70",
-    broker_id: "218",
-    status: 2,
-    number: "617625165198",
-    name: "Savings Account",
-    assets: "416135951.35",
-    payments: "564376171.18",
-    is_active: true,
-    created_at: "2021-12-24T03:59:11.031Z",
-    updated_at: "2021-03-03T18:00:24.356Z",
-  },
-  {
-    id: 2,
-    user_id: 1,
-    uuid: "5e76ecfe-8786-4888-a6b5-08e22a9d0c48",
-    broker_id: "268",
-    status: 2,
-    number: "211321674777",
-    name: "Credit Card Account",
-    assets: "89943239.27",
-    payments: "997845471.40",
-    is_active: true,
-    created_at: "2021-06-17T03:50:02.363Z",
-    updated_at: "2021-02-26T10:43:21.104Z",
-  },
-];
-
-const dataSource = accounts.map((account) => {
-  return {
-    key: account.uuid,
-    user_name: account.user_id, // TODO: 이름으로
-    broker_name: account.broker_id, // TODO: 이름으로
-    number: account.number, // TODO: 마스킹 처리
-    status: account.status,
-    name: account.name,
-    assets: account.assets,
-    payments: account.payments,
-    is_active: account.is_active,
-    created_at: account.created_at,
-  };
-});
-
+// TODO: 고객명, 계좌 상세 정보 버튼 링크 버튼 제공
 const columns = Object.entries(accountHeader).map(([key, val]) => {
   return {
     title: `${val}`,
     dataIndex: `${key}`,
     key: `${key}`,
+    width: "400",
+    // TODO: 고객명, 계좌번호에 상세정보 링크 추가 (text) => applyLinkForCol
+    render: (text: string) =>
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid
+      val === "고객명" || val === "계좌번호" ? <a>{text}</a> : text,
   };
 });
 
@@ -90,19 +35,34 @@ const columns = Object.entries(accountHeader).map(([key, val]) => {
 export default function Accounts({}: NextPageWithLayout) {
   // TODO: accounts, users의 페이지의 데이터 총 개수를 업데이트하는 util 훅으로 분리 (usePageData)
   // + pageOption도 묶어서 제공
+  const [pageOption, setPageOption] = useState({
+    q: "",
+    _page: 1,
+    _limit: 20,
+  });
   const [total, setTotal] = useState(0);
+  const [getAllAccountsResult, getAccountsResult] = useAccounts(pageOption);
+  const { data, isLoading, isFetching } = getAllAccountsResult;
+  const accounts = getAccountsResult.data;
+
+  useEffect(() => {
+    if (data) setTotal(data.length);
+  }, [total, data]);
 
   return (
     <Table
+      loading={isLoading || isFetching}
+      bordered
       size="small"
-      dataSource={dataSource}
+      scroll={{ x: 1600 }}
+      dataSource={accounts}
       columns={columns}
       pagination={{
         defaultPageSize: 20,
         total,
         showTotal: (total) => `Total ${total} items`,
         onChange: (page, pageSize) => {
-          console.log(page, pageSize);
+          setPageOption({ ...pageOption, _page: page, _limit: pageSize });
         },
       }}
     />
