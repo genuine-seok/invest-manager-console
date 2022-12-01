@@ -10,7 +10,7 @@
     "start": "next start",
     "server": "ts-node server.ts",
     "server-test": "json-server ./db.json --port 4000",
-    "gen": "ts-node generateData.ts",
+    "gen": "ts-node ./src/data/generateData.ts",
     "postinstall": "husky install",
     "format": "prettier --cache --write .",
     "lint": "eslint --cache --fix"

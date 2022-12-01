@@ -1,55 +1,33 @@
-import { Pagination, Table } from "antd";
-import { ReactElement, useEffect, useState } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { Table } from "antd";
+import { ReactElement, useState } from "react";
 
 import { PageLayout, Private } from "../../src/components/common";
 import { useUsers } from "../../src/hooks/useUsers";
 import { NextPageWithLayout } from "../_app";
 
 // TODO: Context로 제공하도록 리팩토링 ?
-// TODO: Provider에서 전역으로 queryClient 제공하기
-const queryClient = new QueryClient();
+// TODO: queryClient config 설정 적용하기
 
 const userHeader = {
   name: "고객명",
   email: "이메일 주소",
-  age: "테스트",
+  account_count: "보유중인 계좌수",
   gender_origin: "성별코드",
   birth_date: "생년월일",
   phone_number: "휴대폰 번호",
-  detail_address: "테스트",
   last_login: "최근로그인",
+  allow_marketing_push: "혜택 수신 동의 여부",
+  is_active: "활성화 여부",
   created_at: "가입일",
-  updated_at: "테스트",
-  // id: "테스트",
-  // uuid: "테스트",
-  // photo: "테스트",
-  // address: "테스트",
-  // TODO: account_count,allow_marketing_push,is_active
 };
-
-interface UserType {
-  id: number;
-  uuid: string;
-  photo: string;
-  name: string;
-  email: string;
-  age: number;
-  gender_origin: number;
-  birth_date: string;
-  phone_number: string;
-  address: string;
-  detail_address: string;
-  last_login: string;
-  created_at: string;
-  updated_at: string;
-}
 
 const columns = Object.entries(userHeader).map(([key, val]) => {
   return {
     title: `${val}`,
     dataIndex: `${key}`,
     key: `${key}`,
+    width: "400",
+    textWrap: "word-break",
   };
 });
 
@@ -60,28 +38,27 @@ export default function Users({}: NextPageWithLayout) {
     _page: 1,
     _limit: 20,
   });
-  const [total, setTotal] = useState(0);
-  const [getAllUsersResult, getUsersResult] = useUsers(pageOption);
-  const { data, isLoading, isFetching } = getAllUsersResult;
-  const usersData = getUsersResult.data;
 
-  useEffect(() => {
-    if (data) setTotal(data.length);
-  }, [total, data]);
-
-  if (isLoading || isFetching) return <div>loading...</div>;
+  const { total, userList, isLoading, isFetching } = useUsers(pageOption);
 
   return (
     <Table
+      loading={isLoading || isFetching}
+      bordered
       size="small"
-      dataSource={usersData}
+      scroll={{ x: 1600 }}
+      dataSource={userList}
       columns={columns}
       pagination={{
         defaultPageSize: 20,
         total,
         showTotal: (total) => `Total ${total} items`,
         onChange: (page, pageSize) => {
-          setPageOption({ ...pageOption, _page: page, _limit: pageSize });
+          setPageOption({
+            ...pageOption,
+            _page: page,
+            _limit: pageSize,
+          });
         },
       }}
     />
@@ -91,9 +68,7 @@ export default function Users({}: NextPageWithLayout) {
 Users.getLayout = function getLayout(page: ReactElement) {
   return (
     <Private>
-      <PageLayout title="사용자 목록">
-        <QueryClientProvider client={queryClient}>{page}</QueryClientProvider>
-      </PageLayout>
+      <PageLayout title="사용자 목록">{page}</PageLayout>
     </Private>
   );
 };

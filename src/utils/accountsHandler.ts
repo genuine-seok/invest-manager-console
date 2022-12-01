@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { brokerFormat, brokers } from "../constant";
 import { AccountsData, AccountStatusCode, Brokers } from "../types";
+import { getFormattedDate, getIsActiveText } from ".";
 
 const getAccountStatusByCode = (accountStatusCode: AccountStatusCode) => {
   switch (accountStatusCode) {
@@ -25,10 +26,6 @@ const getBrokerNameById = (id: keyof Brokers) => {
   return broker;
 };
 
-const getIsActiveText = (isActive: boolean) => {
-  return isActive ? "활성화" : "비활성화";
-};
-
 const getFormattedAmount = (amount: string) => {
   const dropped = amount.split(".")[0];
   const chunk = [];
@@ -40,21 +37,6 @@ const getFormattedAmount = (amount: string) => {
     }
   }
   return chunk.join(",");
-};
-
-const getFormattedTwoDecimals = (n: number) => {
-  return n < 10 ? `0${n}` : `${n}`;
-};
-
-const getFormattedDate = (str: string) => {
-  const cleansed = str.replace(/[a-zA-Z]/g, " ");
-  const date = new Date(cleansed);
-  const YY = getFormattedTwoDecimals(date.getFullYear());
-  const MM = getFormattedTwoDecimals(date.getMonth() + 1);
-  const DD = getFormattedTwoDecimals(date.getDate());
-  const hh = getFormattedTwoDecimals(date.getHours());
-  const mm = getFormattedTwoDecimals(date.getMinutes());
-  return `${YY}-${MM}-${DD} ${hh}:${mm}`;
 };
 
 const getFormattedNumberByBrokerId = (id: keyof Brokers, number: string) => {

@@ -1,12 +1,14 @@
 import { AxiosInstance, AxiosResponse } from "axios";
 
-import { UsersData } from "../types";
+import { UserSettingResponseDTO, UserSettingType, UsersType } from "../types";
 import { TokenRepository } from "./TokenRepository";
 
 interface UserService {
-  getUsers: (params?: any) => Promise<AxiosResponse<UsersData, any>>;
+  getUsers: (params?: any) => Promise<AxiosResponse<UsersType, any>>;
   // TODO: 사용자 상세 정보 인자 확인
   //   getUser: (id: number) => Promise<ResultState>;
+  getUserSettings: () => Promise<AxiosResponse<UserSettingResponseDTO, any>>;
+  // TODO: return 타입 정의하기
 }
 
 export class UserServiceImp implements UserService {
@@ -19,9 +21,10 @@ export class UserServiceImp implements UserService {
     this.tokenRepository = tokenRepository;
   }
 
-  async getUsers(params?: any): Promise<AxiosResponse<UsersData, any>> {
+  // TODO: 만료된 토큰에 대한 처리 로직 추가
+  async getUsers(params?: any): Promise<AxiosResponse<UsersType, any>> {
     const token = this.tokenRepository.get();
-    const res = await this.httpClient.get<UsersData>("/users", {
+    const res = await this.httpClient.get<UsersType>("/users", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -39,5 +42,18 @@ export class UserServiceImp implements UserService {
     //     reason: getErrorMessage(error),
     //   };
     // }
+  }
+
+  async getUserSettings(): Promise<AxiosResponse<UserSettingResponseDTO, any>> {
+    const token = this.tokenRepository.get();
+    const res = await this.httpClient.get<Array<UserSettingType>>(
+      "/userSetting",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res;
   }
 }

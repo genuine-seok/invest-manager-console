@@ -17,7 +17,7 @@ export type LoginData = {
   password: string;
 };
 
-export type UserData = {
+export type UserType = {
   id: number;
   uuid: string;
   photo: string;
@@ -33,7 +33,34 @@ export type UserData = {
   created_at: string;
   updated_at: string;
 };
-export type UsersData = UserData[];
+export type UsersType = Array<UserType>;
+
+export type UserListItemType = {
+  name: string;
+  account_count: number;
+  email: string;
+  gender_origin: number;
+  birth_date: string;
+  phone_number: string;
+  last_login: string;
+  allow_marketing_push: string;
+  is_active: string;
+  created_at: string;
+};
+export type UserListType = Array<UserListItemType>;
+
+export type UserSettingType = {
+  id: number;
+  uuid: string;
+  allow_marketing_push: boolean;
+  allow_invest_push: boolean;
+  is_active: boolean;
+  is_staff: boolean;
+  created_at: string;
+  updated_at: string;
+};
+export type UserSettingsType = Array<UserSettingType>;
+export type UserSettingResponseDTO = Array<UserSettingType>;
 
 export type AuthDataType = {
   accessToken: string;

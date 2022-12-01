@@ -22,7 +22,7 @@ for (let i = 1; i < 101; i++) {
   const id = faker.datatype.number();
   const uuid = faker.datatype.uuid();
   const user = {
-    id: i,
+    id,
     uuid,
     photo: faker.internet.avatar(),
     name: faker.name.fullName(),
@@ -56,7 +56,7 @@ for (let i = 1; i < 101; i++) {
     const status = accountStatusCode.sort(() => 0.5 - Math.random())[0];
     const account = {
       id: j,
-      user_id: i,
+      user_id: id,
       uuid: faker.datatype.uuid(),
       broker_id: accountBrokerCode,
       status,
