@@ -54,6 +54,8 @@ export function Private({ children }: PrivateProps) {
   };
 
   useEffect(() => {
+    // TODO: 유효한 토큰 체크 및 토큰 만료 정책
+    // Local Storage 만료 정책 및 쿠키 vs Local Storage 비교 글 참조
     const isLoggedIn = !!getToken();
     if (!isLoggedIn) redirectToPublic();
   });
