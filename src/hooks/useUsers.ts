@@ -34,6 +34,7 @@ export const useUsers = (params: useUsersProps) => {
   const [total, setTotal] = useState(0);
   const [userList, setUserList] = useState<UserListType>([]); // TODO: 초기 상태 정의
 
+  // useQueries 로 변경가능하면 변경해보기 enabled 여부에 따라 다를 것 같음
   const { data: allUsers } = useQuery({
     queryKey: [`get-users-all`],
     queryFn: getUsersByQueryKey,
@@ -54,7 +55,7 @@ export const useUsers = (params: useUsersProps) => {
         accounts.data
       );
 
-      setTotal(allUsers.length);
+      setTotal(allUsers.length); // TODO: 위치 조정
       setUserList(userList);
     },
   });
