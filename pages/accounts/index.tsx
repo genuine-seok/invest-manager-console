@@ -1,5 +1,5 @@
 import { Table } from "antd";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useState } from "react";
 
 import { PageLayout, Private } from "../../src/components/common";
 import { useAccounts } from "../../src/hooks";
@@ -33,21 +33,18 @@ const columns = Object.entries(accountHeader).map(([key, val]) => {
 
 // eslint-disable-next-line no-empty-pattern
 export default function Accounts({}: NextPageWithLayout) {
-  // TODO: accounts, users의 페이지의 데이터 총 개수를 업데이트하는 util 훅으로 분리 (usePageData)
-  // + pageOption도 묶어서 제공
   const [pageOption, setPageOption] = useState({
     q: "",
     _page: 1,
     _limit: 20,
   });
-  const [total, setTotal] = useState(0);
-  const [getAllAccountsResult, getAccountsResult] = useAccounts(pageOption);
-  const { data, isLoading, isFetching } = getAllAccountsResult;
-  const accounts = getAccountsResult.data;
-
-  useEffect(() => {
-    if (data) setTotal(data.length);
-  }, [total, data]);
+  const {
+    total,
+    data: accounts,
+    isLoading,
+    isFetching,
+    isError,
+  } = useAccounts(pageOption);
 
   return (
     <Table

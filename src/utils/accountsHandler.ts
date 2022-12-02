@@ -39,6 +39,14 @@ const getFormattedAmount = (amount: string) => {
   return chunk.join(",");
 };
 
+const getDeIdentifiedNumber = (number: string) => {
+  return (
+    number.slice(0, 2) +
+    "*".repeat(number.slice(2, number.length - 2).length) +
+    number.slice(number.length - 2)
+  );
+};
+
 const getFormattedNumberByBrokerId = (id: keyof Brokers, number: string) => {
   const format = brokerFormat[id];
   const hyphenIdxs = new Set();
@@ -68,7 +76,10 @@ export const getFormattedAccountsData = (data: AccountsData) => {
     }) => ({
       user_name: user_id,
       broker_name: getBrokerNameById(broker_id),
-      number: getFormattedNumberByBrokerId(broker_id, number),
+      number: getFormattedNumberByBrokerId(
+        broker_id,
+        getDeIdentifiedNumber(number)
+      ),
       status: getAccountStatusByCode(status),
       name,
       assets: getFormattedAmount(assets),
