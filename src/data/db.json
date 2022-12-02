@@ -1601,9 +1601,19 @@
       "updated_at": "2022-07-02T09:13:29.905Z"
     },
     {
+      "id": 98528,
+      "name": "Admin 김",
       "email": "admin@admin.com",
       "password": "$2a$10$nHyjXM6pTtmAT5jAM8DZUukgAlDkzmlassU3gmxktcD/.urMMnFVa",
-      "id": 98528
+      "age": 26,
+      "gender_origin": 1,
+      "birth_date": "1959-02-05T15:15:45.214Z",
+      "phone_number": "010-3935-5580",
+      "address": "Burkina Faso 강릉시",
+      "detail_address": "768 검단동 Suite 652",
+      "last_login": "2022-04-14T11:23:45.663Z",
+      "created_at": "2020-03-04T00:32:04.266Z",
+      "updated_at": "2022-07-02T09:13:29.905Z"
     }
   ],
   "userSetting": [
@@ -2606,6 +2616,16 @@
       "is_staff": false,
       "created_at": "2020-03-11T07:31:06.847Z",
       "updated_at": "2022-05-31T22:54:52.605Z"
+    },
+    {
+      "id": 98528,
+      "uuid": "1063695b-0788-4401-80fd-4c146d7b28d3",
+      "allow_marketing_push": true,
+      "allow_invest_push": true,
+      "is_active": true,
+      "is_staff": true,
+      "created_at": "2019-07-20T02:56:45.289Z",
+      "updated_at": "2021-09-26T10:40:26.106Z"
     }
   ],
   "accounts": [
