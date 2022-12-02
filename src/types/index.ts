@@ -1,4 +1,8 @@
-import { brokers } from "../constant";
+import { brokers, sider } from "../constant";
+
+type MenuIds = typeof sider[number]["id"];
+type MenuNames = typeof sider[number]["name"];
+export type MenuKeywords = typeof sider[number]["keyword"];
 
 type NetworkErrorState = {
   result: "fail";

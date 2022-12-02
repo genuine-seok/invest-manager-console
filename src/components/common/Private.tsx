@@ -1,17 +1,12 @@
-import {
-  DashboardOutlined,
-  LogoutOutlined,
-  StockOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import { Image, Layout, Menu, MenuProps } from "antd";
+import { Image, Layout, Menu } from "antd";
 import { useRouter } from "next/router";
 import { MenuInfo } from "rc-menu/lib/interface";
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 
 import { useAuth } from "../../context/AuthContext";
 import { routes } from "../../routes";
 import { getMenuByKey } from "../../utils";
+import { getMenuItems } from "../../utils/siderHandler";
 
 const { Content, Sider } = Layout;
 
@@ -19,26 +14,10 @@ interface PrivateProps {
   children: ReactNode;
 }
 
-type MenuItem = Required<MenuProps>["items"][number];
-
-const getItem = (
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-  type?: "group"
-) => {
-  return { key, icon, children, label, type };
-};
-
-const items: MenuItem[] = [
-  getItem("대시보드", "1", <DashboardOutlined />),
-  getItem("계좌 목록", "2", <StockOutlined />),
-  getItem("사용자", "3", <UserOutlined />),
-  getItem("로그아웃", "4", <LogoutOutlined />),
-];
+const items = getMenuItems();
 
 export function Private({ children }: PrivateProps) {
+  // TODO: 메뉴바 collapse에 따른 레이아웃 동적 확장 기능 추가
   // const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
   const { logout, getToken } = useAuth();
@@ -53,9 +32,9 @@ export function Private({ children }: PrivateProps) {
     router.push(routes[menu]);
   };
 
+  // TODO: 유효한 토큰 체크 및 토큰 만료 정책
+  // Local Storage 만료 정책 및 쿠키 vs Local Storage 비교 글 참조
   useEffect(() => {
-    // TODO: 유효한 토큰 체크 및 토큰 만료 정책
-    // Local Storage 만료 정책 및 쿠키 vs Local Storage 비교 글 참조
     const isLoggedIn = !!getToken();
     if (!isLoggedIn) redirectToPublic();
   });
@@ -74,6 +53,7 @@ export function Private({ children }: PrivateProps) {
         width={200}
         // collapsible
         // collapsed={collapsed}
+        // onCollapse={(value) => setCollapsed(value)}
       >
         <Content style={{ padding: "20px" }}>
           <Image width="100%" src="/images/img_logo_preface.png" />
