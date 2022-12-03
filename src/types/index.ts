@@ -1,7 +1,13 @@
-import { brokers, sider } from "../constant";
+import React from "react";
 
-type MenuIds = typeof sider[number]["id"];
-type MenuNames = typeof sider[number]["name"];
+import { BROKERS, sider } from "../constant";
+
+export type Entries<T> = {
+  [K in keyof T]: [K, T[K]];
+}[keyof T][];
+
+// type MenuIds = typeof sider[number]["id"];
+// type MenuNames = typeof sider[number]["name"];
 export type MenuKeywords = typeof sider[number]["keyword"];
 
 type NetworkErrorState = {
@@ -40,6 +46,7 @@ export type UserType = {
 export type UsersType = Array<UserType>;
 
 export type UserListItemType = {
+  key: React.Key;
   name: string;
   account_count: number;
   email: string;
@@ -88,4 +95,17 @@ export type AccountData = {
 export type AccountsData = AccountData[];
 
 export type AccountStatusCode = 1 | 2 | 3 | 4 | 9999;
-export type Brokers = typeof brokers;
+export type Brokers = typeof BROKERS;
+
+export type AccountListItemType = {
+  key: React.Key;
+  user_name: number; // TODO: string 타입으로 변환
+  broker_name: string;
+  number: string;
+  status: string;
+  name: string;
+  assets: string;
+  payments: string;
+  is_active: string;
+  created_at: string;
+};

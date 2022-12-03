@@ -1,24 +1,37 @@
 import { Table } from "antd";
+import { ColumnsType } from "antd/lib/table";
 import { ReactElement, useState } from "react";
 
 import { PageLayout, Private } from "../../src/components/common";
+import { ACCOUNTS_HEADERS } from "../../src/constant";
 import { useAccounts } from "../../src/hooks";
+import { AccountListItemType } from "../../src/types";
+import {
+  getAccountsFiltersByKey,
+  getAccountsOnFilterByKey,
+} from "../../src/utils";
 import { NextPageWithLayout } from "../_app";
 
-const accountHeader = {
-  broker_name: "증권사",
-  user_name: "고객명", // TODO: user_id 변환
-  number: "계좌번호",
-  status: "계좌상태",
-  name: "계좌명",
-  assets: "평가금액",
-  payments: "입금금액",
-  is_active: "계좌활성화 여부",
-  created_at: "계좌개설일",
-};
-
 // TODO: 고객명, 계좌 상세 정보 버튼 링크 버튼 제공
-const columns = Object.entries(accountHeader).map(([key, val]) => {
+const columns: ColumnsType<AccountListItemType> = Object.entries(
+  ACCOUNTS_HEADERS
+).map(([key, val]) => {
+  const filters = getAccountsFiltersByKey(key);
+  const onFilter = getAccountsOnFilterByKey(key);
+
+  if (filters && onFilter)
+    return {
+      title: `${val}`,
+      dataIndex: `${key}`,
+      key: `${key}`,
+      width: "400",
+      filters,
+      onFilter,
+      render: (text: string) =>
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
+        val === "고객명" || val === "계좌번호" ? <a>{text}</a> : text,
+    };
+
   return {
     title: `${val}`,
     dataIndex: `${key}`,
@@ -43,7 +56,7 @@ export default function Accounts({}: NextPageWithLayout) {
     data: accounts,
     isLoading,
     isFetching,
-    isError,
+    // isError,
   } = useAccounts(pageOption);
 
   return (

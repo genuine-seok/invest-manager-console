@@ -15,7 +15,7 @@ export const getMenuByKey = (key: string) => {
       return "ACCOUNTS";
     case "3":
       return "USERS";
-    case "4":
+    case "9999":
       return "LOGOUT";
     default:
       throw new Error("유효하지 않은 메뉴 버튼입니다.");

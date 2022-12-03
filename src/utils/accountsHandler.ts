@@ -1,6 +1,11 @@
 /* eslint-disable camelcase */
-import { brokerFormat, brokers } from "../constant";
-import { AccountsData, AccountStatusCode, Brokers } from "../types";
+import { BROKER_FORMAT, BROKERS } from "../constant";
+import {
+  AccountListItemType,
+  AccountsData,
+  AccountStatusCode,
+  Brokers,
+} from "../types";
 import { getFormattedDate, getIsActiveText } from ".";
 
 const getAccountStatusByCode = (accountStatusCode: AccountStatusCode) => {
@@ -21,7 +26,7 @@ const getAccountStatusByCode = (accountStatusCode: AccountStatusCode) => {
 };
 
 const getBrokerNameById = (id: keyof Brokers) => {
-  const broker = brokers[id];
+  const broker = BROKERS[id];
   if (!broker) throw new Error("유효하지 않은 broker id 입니다.");
   return broker;
 };
@@ -48,7 +53,7 @@ const getDeIdentifiedNumber = (number: string) => {
 };
 
 const getFormattedNumberByBrokerId = (id: keyof Brokers, number: string) => {
-  const format = brokerFormat[id];
+  const format = BROKER_FORMAT[id];
   const hyphenIdxs = new Set();
   for (let i = 0; i < format.length; i += 1) {
     if (format[i] === "-") hyphenIdxs.add(i);
@@ -61,9 +66,12 @@ const getFormattedNumberByBrokerId = (id: keyof Brokers, number: string) => {
   return formatted;
 };
 
-export const getFormattedAccountsData = (data: AccountsData) => {
+export const getFormattedAccountsData = (
+  data: AccountsData
+): Array<AccountListItemType> => {
   const newData = data.map(
     ({
+      uuid,
       user_id,
       broker_id,
       number,
@@ -74,6 +82,7 @@ export const getFormattedAccountsData = (data: AccountsData) => {
       is_active,
       created_at,
     }) => ({
+      key: uuid,
       user_name: user_id,
       broker_name: getBrokerNameById(broker_id),
       number: getFormattedNumberByBrokerId(
@@ -90,3 +99,5 @@ export const getFormattedAccountsData = (data: AccountsData) => {
   );
   return newData;
 };
+
+export const hasAccount = (accountNumber: number) => accountNumber > 0;

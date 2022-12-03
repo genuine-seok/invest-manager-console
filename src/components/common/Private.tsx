@@ -1,12 +1,11 @@
 import { Image, Layout, Menu } from "antd";
 import { useRouter } from "next/router";
 import { MenuInfo } from "rc-menu/lib/interface";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect } from "react";
 
 import { useAuth } from "../../context/AuthContext";
 import { routes } from "../../routes";
-import { getMenuByKey } from "../../utils";
-import { getMenuItems } from "../../utils/siderHandler";
+import { getMenuByKey, getMenuItems } from "../../utils";
 
 const { Content, Sider } = Layout;
 

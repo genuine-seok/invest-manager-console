@@ -46,6 +46,7 @@ export const getFormattedUserList = (
       const is_active = targetUserSetting?.is_active ?? false;
 
       return {
+        key: `${id}`,
         name: getDeIdentifiedName(name),
         account_count: targetUserAccounts.length,
         email,

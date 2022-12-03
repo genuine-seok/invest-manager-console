@@ -2,6 +2,8 @@ export * from "./accountsHandler";
 export * from "./commonHandler";
 export * from "./dateHandler";
 export * from "./errorHandler";
+export * from "./filterHandler";
 export * from "./menuHandler";
 export * from "./paramsHandler";
+export * from "./siderHandler";
 export * from "./usersHandler";

@@ -1,4 +1,16 @@
-export const accountStatus = {
+export const ACCOUNTS_HEADERS = {
+  broker_name: "증권사",
+  user_name: "고객명", // TODO: user_id 변환
+  number: "계좌번호",
+  status: "계좌상태",
+  name: "계좌명",
+  assets: "평가금액",
+  payments: "입금금액",
+  is_active: "계좌활성화 여부",
+  created_at: "계좌개설일",
+};
+
+export const ACCOUNTS_STATUS = {
   관리자확인필요: 9999,
   입금대기: 1,
   운용중: 2,
@@ -6,7 +18,7 @@ export const accountStatus = {
   해지: 4,
 };
 
-export const brokerFormat = {
+export const BROKER_FORMAT = {
   "209": "00-00000000-00",
   "218": "00-0000000-000",
   "230": "00-000000-0000",
@@ -34,7 +46,7 @@ export const brokerFormat = {
   "271": "00-000-0000000",
 };
 
-export const brokers = {
+export const BROKERS = {
   "209": "유안타증권",
   "218": "현대증권",
   "230": "미래에셋증권",
