@@ -1,6 +1,7 @@
-import { Table } from "antd";
+import { Form, Table } from "antd";
+import Search from "antd/lib/input/Search";
 import { ColumnsType } from "antd/lib/table";
-import { ReactElement, useState } from "react";
+import React, { ReactElement, useState } from "react";
 
 import { PageLayout, Private } from "../../src/components/common";
 import { ACCOUNTS_HEADERS } from "../../src/constant";
@@ -13,6 +14,7 @@ import {
 import { NextPageWithLayout } from "../_app";
 
 // TODO: 고객명, 계좌 상세 정보 버튼 링크 버튼 제공
+// TODO: columns 생성 로직 페이지에서 분리하기 or 커스텀 훅으로 생성하기
 const columns: ColumnsType<AccountListItemType> = Object.entries(
   ACCOUNTS_HEADERS
 ).map(([key, val]) => {
@@ -53,29 +55,53 @@ export default function Accounts({}: NextPageWithLayout) {
   });
   const {
     total,
-    data: accounts,
+    accountList,
     isLoading,
     isFetching,
     // isError,
   } = useAccounts(pageOption);
 
+  const onSearch = (
+    q: string,
+    event?:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.MouseEvent<HTMLElement, MouseEvent>
+      | React.KeyboardEvent<HTMLInputElement>
+      | undefined
+  ) => {
+    setPageOption({ ...pageOption, q });
+  };
+
   return (
-    <Table
-      loading={isLoading || isFetching}
-      bordered
-      size="small"
-      scroll={{ x: 1600 }}
-      dataSource={accounts}
-      columns={columns}
-      pagination={{
-        defaultPageSize: 20,
-        total,
-        showTotal: (total) => `Total ${total} items`,
-        onChange: (page, pageSize) => {
-          setPageOption({ ...pageOption, _page: page, _limit: pageSize });
-        },
-      }}
-    />
+    <>
+      <Form>
+        <Form.Item label="검색" name="search-accounts">
+          <Search
+            allowClear
+            enterButton
+            loading={isLoading || isFetching}
+            onSearch={onSearch}
+            style={{ width: "24rem" }}
+          />
+        </Form.Item>
+      </Form>
+      <Table
+        loading={isLoading || isFetching}
+        bordered
+        size="small"
+        scroll={{ x: 1600 }}
+        dataSource={accountList}
+        columns={columns}
+        pagination={{
+          defaultPageSize: 20,
+          total,
+          showTotal: (total) => `Total ${total} items`,
+          onChange: (page, pageSize) => {
+            setPageOption({ ...pageOption, _page: page, _limit: pageSize });
+          },
+        }}
+      />
+    </>
   );
 }
 

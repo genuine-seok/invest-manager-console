@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 import { useState } from "react";
-import { QueryKey, useQuery } from "react-query";
+import { QueryKey, useQueries } from "react-query";
 
 import { httpClient, TokenRepositoryImp } from "../api";
 import { AccountServiceImp } from "../api/AccountService";
 import { UserServiceImp } from "../api/UserService";
-import { UserListItemType, UsersType } from "../types";
+import { UserListItemType, UsersType, UserType } from "../types";
 import { getFormattedUserList, getValidParams } from "../utils";
 
 // TODO: Context로 userService의 메서드들 (getUsers 등)을 로직 분리
@@ -32,31 +32,31 @@ export const useUsers = (params: useUsersProps) => {
   const [total, setTotal] = useState(0);
   const [userList, setUserList] = useState<Array<UserListItemType>>([]); // TODO: 초기 상태 정의
 
-  // useQueries 로 변경가능하면 변경해보기 enabled 여부에 따라 다를 것 같음
-  const { data: allUsers } = useQuery({
-    queryKey: [`get-users-all`],
-    queryFn: getUsersByQueryKey,
-    select: (res: any) => res.data,
-  });
-
-  const { isLoading, isError, isFetching } = useQuery({
-    queryKey: [`get-users-page-pageSize`, filteredParams],
-    queryFn: getUsersByQueryKey,
-    enabled: !!allUsers,
-    select: (res: any) => res.data,
-    onSuccess: async (users: UsersType) => {
-      const userSettings = await userService.getUserSettings(); // TODO : 예외 처리
-      const accounts = await accountService.getAccounts(); // TODO : 예외 처리
-      const userList = getFormattedUserList(
-        users,
-        userSettings.data,
-        accounts.data
-      );
-
-      setTotal(allUsers.length); // TODO: 위치 조정
-      setUserList(userList);
+  const [_, { isLoading, isFetching, isError }] = useQueries([
+    {
+      queryKey: [`get-users-search-total`, { q: params.q }], // TODO: 쿼리 파라미터 입력값에 대한 쿼리키 추가
+      queryFn: getUsersByQueryKey,
+      select: (res: any) => res.data,
+      onSuccess: (usersTotal: UserType[]) => {
+        setTotal(usersTotal.length);
+      },
     },
-  });
+    {
+      queryKey: [`get-users-search-page-pageSize`, filteredParams],
+      queryFn: getUsersByQueryKey,
+      select: (res: any) => res.data,
+      onSuccess: async (users: UsersType) => {
+        const userSettings = await userService.getUserSettings(); // TODO : 예외 처리
+        const accounts = await accountService.getAccounts(); // TODO : 예외 처리
+        const userList = getFormattedUserList(
+          users,
+          userSettings.data,
+          accounts.data
+        );
+        setUserList(userList);
+      },
+    },
+  ]);
 
   return { total, userList, isLoading, isError, isFetching };
 };
