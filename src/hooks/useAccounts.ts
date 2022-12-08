@@ -20,31 +20,30 @@ export const getAccountsByQueryKey = async ({
 };
 
 interface UseAccountsProps {
-  q: string;
-  _page: number;
-  _limit: number;
+  q?: string;
+  id?: string;
+  _page?: number;
+  _limit?: number;
 }
 
 export const useAccounts = (params: UseAccountsProps) => {
   const filteredParams = getValidParams(params);
   const [total, setTotal] = useState(0);
-  const [_, { data: accountList, isLoading, isFetching, isError }] = useQueries(
-    [
-      {
-        queryKey: [`get-accounts-total`, { q: params.q }], // TODO: 쿼리 파라미터 입력값에 대한 쿼리키 추가
-        queryFn: getAccountsByQueryKey,
-        select: (res: any) => res.data,
-        onSuccess: (accountsTotal: AccountsData[]) => {
-          setTotal(accountsTotal.length);
-        },
+  const [_, { data, isLoading, isFetching, isError }] = useQueries([
+    {
+      queryKey: [`get-accounts-total`, { q: params.q }], // TODO: 쿼리 파라미터 입력값에 대한 쿼리키 추가
+      queryFn: getAccountsByQueryKey,
+      select: (res: any) => res.data,
+      onSuccess: (accountsTotal: AccountsData[]) => {
+        setTotal(accountsTotal.length);
       },
-      {
-        queryKey: [`get-accounts`, filteredParams],
-        queryFn: getAccountsByQueryKey,
-        select: (res: any) => getFormattedAccountsData(res.data),
-      },
-    ]
-  );
+    },
+    {
+      queryKey: [`get-accounts`, filteredParams],
+      queryFn: getAccountsByQueryKey,
+      select: (res: any) => getFormattedAccountsData(res.data),
+    },
+  ]);
 
-  return { total, accountList, isLoading, isFetching, isError };
+  return { total, data, isLoading, isFetching, isError };
 };

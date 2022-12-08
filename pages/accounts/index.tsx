@@ -1,15 +1,18 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Form, Table } from "antd";
 import Search from "antd/lib/input/Search";
 import { ColumnsType } from "antd/lib/table";
+import Link from "next/link";
 import React, { ReactElement, useState } from "react";
 
 import { PageLayout, Private } from "../../src/components/common";
 import { ACCOUNTS_HEADERS } from "../../src/constant";
 import { useAccounts } from "../../src/hooks";
-import { AccountListItemType } from "../../src/types";
+import { AccountHeaderValue, AccountListItemType } from "../../src/types";
 import {
   getAccountsFiltersByKey,
   getAccountsOnFilterByKey,
+  getUrlByColumnsHeader,
 } from "../../src/utils";
 import { NextPageWithLayout } from "../_app";
 
@@ -29,9 +32,6 @@ const columns: ColumnsType<AccountListItemType> = Object.entries(
       width: "400",
       filters,
       onFilter,
-      render: (text: string) =>
-        // eslint-disable-next-line jsx-a11y/anchor-is-valid
-        val === "고객명" || val === "계좌번호" ? <a>{text}</a> : text,
     };
 
   return {
@@ -39,10 +39,11 @@ const columns: ColumnsType<AccountListItemType> = Object.entries(
     dataIndex: `${key}`,
     key: `${key}`,
     width: "400",
-    // TODO: 고객명, 계좌번호에 상세정보 링크 추가 (text) => applyLinkForCol
-    render: (text: string) =>
-      // eslint-disable-next-line jsx-a11y/anchor-is-valid
-      val === "고객명" || val === "계좌번호" ? <a>{text}</a> : text,
+    render: (text: string, record: AccountListItemType) => {
+      const url = getUrlByColumnsHeader(val as AccountHeaderValue, record.key);
+      if (url) return <Link href={url}>{text}</Link>;
+      return text;
+    },
   };
 });
 
@@ -55,7 +56,7 @@ export default function Accounts({}: NextPageWithLayout) {
   });
   const {
     total,
-    accountList,
+    data,
     isLoading,
     isFetching,
     // isError,
@@ -90,7 +91,7 @@ export default function Accounts({}: NextPageWithLayout) {
         bordered
         size="small"
         scroll={{ x: 1600 }}
-        dataSource={accountList}
+        dataSource={data}
         columns={columns}
         pagination={{
           defaultPageSize: 20,

@@ -17,6 +17,9 @@ const accounts = [];
 const brokercode = Object.keys(brokers);
 const accountStatusCode = Object.values(accountStatus);
 
+// eslint-disable-next-line prefer-const
+let accId = 1;
+
 for (let i = 1; i < 101; i++) {
   // generate fake users and settings
   const id = faker.datatype.number();
@@ -55,7 +58,7 @@ for (let i = 1; i < 101; i++) {
     const accountBrokerCode = brokercode.sort(() => 0.5 - Math.random())[0];
     const status = accountStatusCode.sort(() => 0.5 - Math.random())[0];
     const account = {
-      id: j,
+      id: accId++,
       user_id: id,
       uuid: faker.datatype.uuid(),
       broker_id: accountBrokerCode,

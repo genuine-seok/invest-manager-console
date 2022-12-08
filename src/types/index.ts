@@ -1,6 +1,6 @@
 import React from "react";
 
-import { BROKERS, sider } from "../constant";
+import { ACCOUNTS_HEADERS, BROKERS, sider } from "../constant";
 
 export type Entries<T> = {
   [K in keyof T]: [K, T[K]];
@@ -96,6 +96,8 @@ export type AccountsData = AccountData[];
 
 export type AccountStatusCode = 1 | 2 | 3 | 4 | 9999;
 export type Brokers = typeof BROKERS;
+export type AccountHeaderKey = keyof typeof ACCOUNTS_HEADERS;
+export type AccountHeaderValue = typeof ACCOUNTS_HEADERS[AccountHeaderKey];
 
 export type AccountListItemType = {
   key: React.Key;

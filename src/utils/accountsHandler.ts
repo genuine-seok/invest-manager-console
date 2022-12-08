@@ -1,6 +1,13 @@
 /* eslint-disable camelcase */
-import { BROKER_FORMAT, BROKERS } from "../constant";
 import {
+  ACCOUNTS_HEADERS,
+  BROKER_FORMAT,
+  BROKERS,
+  ROUTER_PATH,
+} from "../constant";
+import {
+  AccountHeaderKey,
+  AccountHeaderValue,
   AccountListItemType,
   AccountsData,
   AccountStatusCode,
@@ -71,7 +78,7 @@ export const getFormattedAccountsData = (
 ): Array<AccountListItemType> => {
   const newData = data.map(
     ({
-      uuid,
+      id,
       user_id,
       broker_id,
       number,
@@ -82,7 +89,7 @@ export const getFormattedAccountsData = (
       is_active,
       created_at,
     }) => ({
-      key: uuid,
+      key: id,
       user_name: user_id,
       broker_name: getBrokerNameById(broker_id),
       number: getFormattedNumberByBrokerId(
@@ -101,3 +108,25 @@ export const getFormattedAccountsData = (
 };
 
 export const hasAccount = (accountNumber: number) => accountNumber > 0;
+
+export const getUrlByColumnsHeader = (
+  val: AccountHeaderValue,
+  param: string | number
+) => {
+  switch (val) {
+    case "계좌번호":
+      return `${ROUTER_PATH.ACCOUNTS}/${param}`;
+    case "고객명":
+      return `${ROUTER_PATH.USERS}/${param}`;
+    default:
+      return null;
+  }
+};
+
+export const getAccountDataTextByKey = (key: AccountHeaderKey) => {
+  try {
+    return ACCOUNTS_HEADERS[key];
+  } catch (e: unknown) {
+    throw new Error("unavailable key for account text");
+  }
+};

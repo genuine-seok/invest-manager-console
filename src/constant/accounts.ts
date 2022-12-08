@@ -1,3 +1,15 @@
+export const ACCOUNT_KEY = {
+  USER_NAME: "user_name",
+  BROKER_NAME: "broker_name",
+  NUMBER: "number",
+  STATUS: "status",
+  NAME: "name",
+  ASSETS: "assets",
+  PAYMENTS: "payments",
+  IS_ACTIVE: "is_active",
+  CREATED_AT: "created_at",
+} as const;
+
 export const ACCOUNTS_HEADERS = {
   broker_name: "증권사",
   user_name: "고객명", // TODO: user_id 변환
@@ -8,7 +20,7 @@ export const ACCOUNTS_HEADERS = {
   payments: "입금금액",
   is_active: "계좌활성화 여부",
   created_at: "계좌개설일",
-};
+} as const;
 
 export const ACCOUNTS_STATUS = {
   관리자확인필요: 9999,
