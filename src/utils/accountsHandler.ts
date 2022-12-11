@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import {
   ACCOUNT_HEADER,
+  ACCOUNT_STATUS,
   BROKER_FORMAT,
   BROKERS,
   ROUTER_PATH,
@@ -144,5 +145,48 @@ export const getAccountDataTextByKey = (key: AccountHeaderKey) => {
     return ACCOUNT_HEADER[key];
   } catch (e: unknown) {
     throw new Error("unavailable key for account text");
+  }
+};
+
+export const getAccountsFiltersByKey = (key: string) => {
+  switch (key) {
+    case "broker_name":
+      return Object.values(BROKERS).map((brokerName) => ({
+        text: brokerName,
+        value: brokerName,
+      }));
+    case "is_active":
+      return [
+        { text: "활성화", value: true },
+        { text: "비활성화", value: false },
+      ];
+    case "status":
+      return Object.keys(ACCOUNT_STATUS).map((key) => ({
+        text: key,
+        value: key,
+      }));
+    default:
+      return false;
+  }
+};
+
+export const getAccountsOnFilterByKey = (key: string) => {
+  switch (key) {
+    case "broker_name":
+      return (value: string | number | boolean, record: AccountListItemType) =>
+        record.broker_name === value;
+    case "is_active":
+      return (
+        value: string | number | boolean,
+        record: AccountListItemType
+      ) => {
+        const isActive = value as boolean;
+        return record.is_active === getIsActiveText(isActive);
+      };
+    case "status":
+      return (value: string | number | boolean, record: AccountListItemType) =>
+        record.status === value;
+    default:
+      return false;
   }
 };

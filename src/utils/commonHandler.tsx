@@ -1,6 +1,7 @@
 /* eslint-disable testing-library/render-result-naming-convention */
 /* eslint-disable react/display-name */
 import { ColumnsType } from "antd/lib/table";
+import axios from "axios";
 import Link from "next/link";
 
 import { ACCOUNT_HEADER, GENDER_ORIGIN, USER_HEADER } from "../constant";
@@ -12,13 +13,32 @@ import {
   UserHeaderValue,
   UserListItemType,
 } from "../types";
-import { getUrlOfAccountList, getUrlOfUserList } from "./accountsHandler";
 import {
   getAccountsFiltersByKey,
   getAccountsOnFilterByKey,
-  getUsersFiltersByKey,
-  getUsersOnFilterByKey,
-} from "./filterHandler";
+  getUrlOfAccountList,
+  getUrlOfUserList,
+} from "./accountsHandler";
+import { getUsersFiltersByKey, getUsersOnFilterByKey } from "./usersHandler";
+
+export const getErrorMessage = (error: unknown): string => {
+  if (axios.isAxiosError(error)) {
+    return error.response?.data;
+  }
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return String(error);
+};
+
+export const getValidParams = (params: Record<string, any>) => {
+  const filtered = Object.entries(params).filter(([_, value]) => !!value);
+  const newParams = filtered.reduce((accum, [key, value]) => {
+    accum[key] = value;
+    return accum;
+  }, {} as { [key: string]: number | string });
+  return newParams;
+};
 
 export const getIsActiveText = (isActive: boolean) => {
   return isActive ? "활성화" : "비활성화";

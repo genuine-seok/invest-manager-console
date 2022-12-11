@@ -5,10 +5,12 @@ import {
   AccountsData,
   GenderOriginKey,
   UserDetailKey,
+  UserListItemType,
   UserSettingsType,
   UsersType,
   UserType,
 } from "../types";
+import { hasAccount } from "./accountsHandler";
 // Refactor: util 관련 함수 index entry point 수정
 import {
   getDeIdentifiedName,
@@ -112,5 +114,43 @@ export const isUsedForUserDetail = (key: keyof UserType) => {
       return false;
     default:
       return true;
+  }
+};
+
+export const getUsersFiltersByKey = (key: string) => {
+  switch (key) {
+    case "account_count":
+      return [
+        {
+          text: "계좌 있음",
+          value: true,
+        },
+        {
+          text: "계좌 없음",
+          value: false,
+        },
+      ];
+    case "is_active":
+      return [
+        { text: "활성화", value: true },
+        { text: "비활성화", value: false },
+      ];
+    default:
+      return false;
+  }
+};
+
+export const getUsersOnFilterByKey = (key: string) => {
+  switch (key) {
+    case "account_count":
+      return (value: string | number | boolean, record: UserListItemType) =>
+        hasAccount(record.account_count) === value;
+    case "is_active":
+      return (value: string | number | boolean, record: UserListItemType) => {
+        const isActive = value as boolean;
+        return record.is_active === getIsActiveText(isActive);
+      };
+    default:
+      return false;
   }
 };

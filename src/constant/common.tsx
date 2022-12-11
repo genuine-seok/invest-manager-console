@@ -18,17 +18,17 @@ export const ROUTER_PATH = {
 };
 
 export const SIDER = [
-  { id: 1, name: "대시보드", keyword: "dashboard" },
-  { id: 2, name: "계좌 목록", keyword: "accounts" },
-  { id: 3, name: "사용자 목록", keyword: "users" },
-  { id: 9999, name: "로그아웃", keyword: "logout" },
+  { id: 1, name: "대시보드", keyword: "DASHBOARD" },
+  { id: 2, name: "계좌 목록", keyword: "ACCOUNTS" },
+  { id: 3, name: "사용자 목록", keyword: "USERS" },
+  { id: 9999, name: "로그아웃", keyword: "LOGOUT" },
 ] as const;
 
 export const MENU_ICONS = {
-  dashboard: <DashboardOutlined />,
-  accounts: <StockOutlined />,
-  users: <UserOutlined />,
-  logout: <LogoutOutlined />,
+  DASHBOARD: <DashboardOutlined />,
+  ACCOUNTS: <StockOutlined />,
+  USERS: <UserOutlined />,
+  LOGOUT: <LogoutOutlined />,
 };
 
 export const GENDER_ORIGIN = {
