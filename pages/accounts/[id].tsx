@@ -23,7 +23,7 @@ export default function Account() {
 Account.getLayout = function getLayout(page: ReactElement) {
   return (
     <Private>
-      <PageLayout title="계좌 상세정보">{page}</PageLayout>
+      <PageLayout title="계좌 정보">{page}</PageLayout>
     </Private>
   );
 };
