@@ -24,11 +24,13 @@ for (let i = 1; i < 101; i++) {
   // generate fake users and settings
   const id = faker.datatype.number();
   const uuid = faker.datatype.uuid();
+  const name = faker.name.fullName();
+  // 1. 사용자 데이터
   const user = {
     id,
     uuid,
     photo: faker.internet.avatar(),
-    name: faker.name.fullName(),
+    name,
     email: faker.internet.email(),
     age: faker.datatype.number({ min: 20, max: 66 }),
     gender_origin: faker.datatype.number({ min: 1, max: 4 }),
@@ -40,6 +42,7 @@ for (let i = 1; i < 101; i++) {
     created_at: faker.date.between("2019-04-01", "2022-08-01"),
     updated_at: faker.date.between("2019-04-01", "2022-08-01"),
   };
+  // 2. 사용자 설정 데이터
   const setting = {
     id,
     uuid,
@@ -53,13 +56,14 @@ for (let i = 1; i < 101; i++) {
   users.push(user);
   userSetting.push(setting);
 
-  // generate fake accounts
+  // 3. 계정 데이터
   for (let j = 1; j < faker.datatype.number({ min: 2, max: 11 }); j++) {
     const accountBrokerCode = brokercode.sort(() => 0.5 - Math.random())[0];
     const status = accountStatusCode.sort(() => 0.5 - Math.random())[0];
     const account = {
       id: accId++,
       user_id: id,
+      user_name: name,
       uuid: faker.datatype.uuid(),
       broker_id: accountBrokerCode,
       status,

@@ -1,13 +1,18 @@
 import { Form, Table } from "antd";
 import Search from "antd/lib/input/Search";
 import { ColumnsType } from "antd/lib/table";
-import React, { ReactElement, useEffect, useState } from "react";
+import Link from "next/link";
+import React, { ReactElement, useState } from "react";
 
 import { PageLayout, Private } from "../../src/components/common";
 import { USERS_HEADERS } from "../../src/constant/users";
 import { useUsers } from "../../src/hooks/useUsers";
-import { UserListItemType } from "../../src/types";
-import { getUsersFiltersByKey, getUsersOnFilterByKey } from "../../src/utils";
+import { UserHeaderValue, UserListItemType } from "../../src/types";
+import {
+  getUrlOfUserList,
+  getUsersFiltersByKey,
+  getUsersOnFilterByKey,
+} from "../../src/utils";
 import { NextPageWithLayout } from "../_app";
 
 // TODO: Context로 제공하도록 리팩토링 ?
@@ -38,6 +43,11 @@ const columns: ColumnsType<UserListItemType> = Object.entries(
       key: `${key}`,
       width: "400",
       textWrap: "word-break",
+      render: (text: string, record: UserListItemType) => {
+        const url = getUrlOfUserList(val as UserHeaderValue, record);
+        if (url) return <Link href={url}>{text}</Link>;
+        return text;
+      },
     };
   }
 );
@@ -63,10 +73,6 @@ export default function Users({}: NextPageWithLayout) {
     setPageOption({ ...pageOption, q });
   };
 
-  useEffect(() => {
-    console.log("rerendered");
-  }, [total]);
-
   return (
     <>
       <Form>
@@ -88,7 +94,7 @@ export default function Users({}: NextPageWithLayout) {
         dataSource={userList}
         columns={columns}
         pagination={{
-          defaultPageSize: 20,
+          defaultPageSize: 10,
           total,
           showTotal: (total) => `Total ${total} items`,
           onChange: (page, pageSize) => {

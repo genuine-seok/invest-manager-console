@@ -12,8 +12,10 @@ import {
   AccountsData,
   AccountStatusCode,
   Brokers,
+  UserHeaderValue,
+  UserListItemType,
 } from "../types";
-import { getFormattedDate, getIsActiveText } from ".";
+import { getDeIdentifiedName, getFormattedDate, getIsActiveText } from ".";
 
 const getAccountStatusByCode = (accountStatusCode: AccountStatusCode) => {
   switch (accountStatusCode) {
@@ -80,6 +82,7 @@ export const getFormattedAccountsData = (
     ({
       id,
       user_id,
+      user_name,
       broker_id,
       number,
       status,
@@ -90,7 +93,8 @@ export const getFormattedAccountsData = (
       created_at,
     }) => ({
       key: id,
-      user_name: user_id,
+      user_id,
+      user_name: getDeIdentifiedName(user_name),
       broker_name: getBrokerNameById(broker_id),
       number: getFormattedNumberByBrokerId(
         broker_id,
@@ -109,15 +113,27 @@ export const getFormattedAccountsData = (
 
 export const hasAccount = (accountNumber: number) => accountNumber > 0;
 
-export const getUrlByColumnsHeader = (
-  val: AccountHeaderValue,
-  param: string | number
+export const getUrlOfUserList = (
+  val: UserHeaderValue,
+  record: UserListItemType
 ) => {
   switch (val) {
-    case "계좌번호":
-      return `${ROUTER_PATH.ACCOUNTS}/${param}`;
     case "고객명":
-      return `${ROUTER_PATH.USERS}/${param}`;
+      return `${ROUTER_PATH.USERS}/${record.user_id}`;
+    default:
+      return null;
+  }
+};
+
+export const getUrlOfAccountList = (
+  val: AccountHeaderValue,
+  record: AccountListItemType
+) => {
+  switch (val) {
+    case "고객명":
+      return `${ROUTER_PATH.USERS}/${record.user_id}`;
+    case "계좌번호":
+      return `${ROUTER_PATH.ACCOUNTS}/${record.key}`;
     default:
       return null;
   }

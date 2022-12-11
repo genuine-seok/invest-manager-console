@@ -23,3 +23,10 @@ export const MENU_ICONS = {
   users: <UserOutlined />,
   logout: <LogoutOutlined />,
 };
+
+export const GENDER_ORIGIN = {
+  "1": "남성",
+  "2": "여성",
+  "3": "양성",
+  "4": "기타",
+} as const;

@@ -12,7 +12,8 @@ export const ACCOUNT_KEY = {
 
 export const ACCOUNTS_HEADERS = {
   broker_name: "증권사",
-  user_name: "고객명", // TODO: user_id 변환
+  user_name: "고객명",
+  user_id: "고객 아이디", // new
   number: "계좌번호",
   status: "계좌상태",
   name: "계좌명",

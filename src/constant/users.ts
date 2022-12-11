@@ -9,4 +9,17 @@ export const USERS_HEADERS = {
   allow_marketing_push: "혜택 수신 동의 여부",
   is_active: "활성화 여부",
   create_at: "가입일",
-};
+} as const;
+
+export const USER_DETAIL = {
+  name: "이름",
+  age: "나이",
+  gender_origin: "성별", //
+  birth_date: "생년월일",
+  address: "주소", //
+  detail_address: "상세 주소",
+  email: "이메일",
+  phone_number: "핸드폰",
+  allow_marketing_push: "혜택 정보 수신",
+  created_at: "가입 시각",
+} as const;

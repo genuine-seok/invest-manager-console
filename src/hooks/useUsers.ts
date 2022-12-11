@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { AxiosResponse } from "axios";
 import { useState } from "react";
 import { QueryKey, useQueries } from "react-query";
 
@@ -19,9 +20,10 @@ const getUsersByQueryKey = async ({ queryKey }: { queryKey: QueryKey }) => {
 };
 
 interface useUsersProps {
-  q: string;
-  _page: number;
-  _limit: number;
+  q?: string;
+  id?: string;
+  _page?: number;
+  _limit?: number;
 }
 
 // TODO: queryClient config 공통 option 적용
@@ -30,9 +32,9 @@ interface useUsersProps {
 export const useUsers = (params: useUsersProps) => {
   const filteredParams = getValidParams(params);
   const [total, setTotal] = useState(0);
-  const [userList, setUserList] = useState<Array<UserListItemType>>([]); // TODO: 초기 상태 정의
+  const [userList, setUserList] = useState<UserListItemType[]>([]); // TODO: 초기 상태 정의
 
-  const [_, { isLoading, isFetching, isError }] = useQueries([
+  const [_, { data, isLoading, isFetching, isError }] = useQueries([
     {
       queryKey: [`get-users-search-total`, { q: params.q }], // TODO: 쿼리 파라미터 입력값에 대한 쿼리키 추가
       queryFn: getUsersByQueryKey,
@@ -42,9 +44,10 @@ export const useUsers = (params: useUsersProps) => {
       },
     },
     {
-      queryKey: [`get-users-search-page-pageSize`, filteredParams],
+      queryKey: [`get-users-search`, filteredParams],
       queryFn: getUsersByQueryKey,
-      select: (res: any) => res.data,
+      // TODO: 타입 정의
+      select: (res: AxiosResponse<UsersType, any>) => res.data,
       onSuccess: async (users: UsersType) => {
         const userSettings = await userService.getUserSettings(); // TODO : 예외 처리
         const accounts = await accountService.getAccounts(); // TODO : 예외 처리
@@ -58,5 +61,5 @@ export const useUsers = (params: useUsersProps) => {
     },
   ]);
 
-  return { total, userList, isLoading, isError, isFetching };
+  return { total, userList, data, isLoading, isError, isFetching };
 };

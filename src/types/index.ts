@@ -1,6 +1,13 @@
 import React from "react";
 
-import { ACCOUNTS_HEADERS, BROKERS, sider } from "../constant";
+import {
+  ACCOUNTS_HEADERS,
+  BROKERS,
+  GENDER_ORIGIN,
+  sider,
+  USER_DETAIL,
+  USERS_HEADERS,
+} from "../constant";
 
 export type Entries<T> = {
   [K in keyof T]: [K, T[K]];
@@ -45,9 +52,15 @@ export type UserType = {
 };
 export type UsersType = Array<UserType>;
 
+export type UserHeaderKey = keyof typeof USERS_HEADERS;
+export type UserHeaderValue = typeof USERS_HEADERS[UserHeaderKey];
+export type UserDetailKey = keyof typeof USER_DETAIL;
+export type UserDetailValue = typeof USER_DETAIL[UserDetailKey];
+
 export type UserListItemType = {
   key: React.Key;
   name: string;
+  user_id: number;
   account_count: number;
   email: string;
   gender_origin: number;
@@ -81,6 +94,7 @@ export type AuthDataType = {
 export type AccountData = {
   id: number;
   user_id: number;
+  user_name: string;
   uuid: string;
   broker_id: keyof Brokers;
   status: AccountStatusCode;
@@ -101,7 +115,8 @@ export type AccountHeaderValue = typeof ACCOUNTS_HEADERS[AccountHeaderKey];
 
 export type AccountListItemType = {
   key: React.Key;
-  user_name: number; // TODO: string 타입으로 변환
+  user_id: number;
+  user_name: string;
   broker_name: string;
   number: string;
   status: string;
@@ -111,3 +126,5 @@ export type AccountListItemType = {
   is_active: string;
   created_at: string;
 };
+
+export type GenderOriginKey = keyof typeof GENDER_ORIGIN;

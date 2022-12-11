@@ -12,7 +12,7 @@ import { AccountHeaderValue, AccountListItemType } from "../../src/types";
 import {
   getAccountsFiltersByKey,
   getAccountsOnFilterByKey,
-  getUrlByColumnsHeader,
+  getUrlOfAccountList,
 } from "../../src/utils";
 import { NextPageWithLayout } from "../_app";
 
@@ -40,7 +40,7 @@ const columns: ColumnsType<AccountListItemType> = Object.entries(
     key: `${key}`,
     width: "400",
     render: (text: string, record: AccountListItemType) => {
-      const url = getUrlByColumnsHeader(val as AccountHeaderValue, record.key);
+      const url = getUrlOfAccountList(val as AccountHeaderValue, record);
       if (url) return <Link href={url}>{text}</Link>;
       return text;
     },
@@ -49,10 +49,11 @@ const columns: ColumnsType<AccountListItemType> = Object.entries(
 
 // eslint-disable-next-line no-empty-pattern
 export default function Accounts({}: NextPageWithLayout) {
+  // TODO: pageOption 관련 공통 로직 리팩토링
   const [pageOption, setPageOption] = useState({
     q: "",
     _page: 1,
-    _limit: 20,
+    _limit: 10,
   });
   const {
     total,
@@ -94,7 +95,7 @@ export default function Accounts({}: NextPageWithLayout) {
         dataSource={data}
         columns={columns}
         pagination={{
-          defaultPageSize: 20,
+          defaultPageSize: 10,
           total,
           showTotal: (total) => `Total ${total} items`,
           onChange: (page, pageSize) => {
