@@ -10,10 +10,10 @@ export const ACCOUNT_KEY = {
   CREATED_AT: "created_at",
 } as const;
 
-export const ACCOUNTS_HEADERS = {
+export const ACCOUNT_HEADER = {
   broker_name: "증권사",
   user_name: "고객명",
-  user_id: "고객 아이디", // new
+  user_id: "고객 아이디",
   number: "계좌번호",
   status: "계좌상태",
   name: "계좌명",
@@ -23,7 +23,7 @@ export const ACCOUNTS_HEADERS = {
   created_at: "계좌개설일",
 } as const;
 
-export const ACCOUNTS_STATUS = {
+export const ACCOUNT_STATUS = {
   관리자확인필요: 9999,
   입금대기: 1,
   운용중: 2,

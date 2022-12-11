@@ -5,12 +5,19 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 
+export const MENU = {
+  DASHBOARD: "DASHBOARD",
+  ACCOUNTS: "ACCOUNTS",
+  USERS: "USERS",
+  LOGOUT: "LOGOUT",
+} as const;
+
 export const ROUTER_PATH = {
   ACCOUNTS: "/accounts",
   USERS: "/users",
 };
 
-export const sider = [
+export const SIDER = [
   { id: 1, name: "대시보드", keyword: "dashboard" },
   { id: 2, name: "계좌 목록", keyword: "accounts" },
   { id: 3, name: "사용자 목록", keyword: "users" },

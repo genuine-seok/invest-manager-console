@@ -1,4 +1,4 @@
-import { ACCOUNTS_STATUS, BROKERS } from "../constant";
+import { ACCOUNT_STATUS, BROKERS } from "../constant";
 import { AccountListItemType, UserListItemType } from "../types";
 import { hasAccount } from "./accountsHandler";
 import { getIsActiveText } from "./commonHandler";
@@ -16,7 +16,7 @@ export const getAccountsFiltersByKey = (key: string) => {
         { text: "비활성화", value: false },
       ];
     case "status":
-      return Object.keys(ACCOUNTS_STATUS).map((key) => ({
+      return Object.keys(ACCOUNT_STATUS).map((key) => ({
         text: key,
         value: key,
       }));
@@ -84,5 +84,3 @@ export const getUsersOnFilterByKey = (key: string) => {
       return false;
   }
 };
-
-const brokerName = Object.values(BROKERS); // [유안타,현대증권,미래에셋]

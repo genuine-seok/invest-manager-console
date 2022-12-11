@@ -1,56 +1,14 @@
 import { Form, Table } from "antd";
 import Search from "antd/lib/input/Search";
-import { ColumnsType } from "antd/lib/table";
-import Link from "next/link";
 import React, { ReactElement, useState } from "react";
 
 import { PageLayout, Private } from "../../src/components/common";
-import { USERS_HEADERS } from "../../src/constant/users";
 import { useUsers } from "../../src/hooks/useUsers";
-import { UserHeaderValue, UserListItemType } from "../../src/types";
-import {
-  getUrlOfUserList,
-  getUsersFiltersByKey,
-  getUsersOnFilterByKey,
-} from "../../src/utils";
+import { UserListItemType } from "../../src/types";
+import { getColumns } from "../../src/utils";
 import { NextPageWithLayout } from "../_app";
 
-// TODO: Context로 제공하도록 리팩토링 ?
-// TODO: queryClient config 설정 적용하기
-// TODO: columns 생성 로직 페이지에서 분리하기 or 커스텀 훅으로 생성하기
-const columns: ColumnsType<UserListItemType> = Object.entries(
-  USERS_HEADERS
-).map(
-  // TODO: key, val 타입 정의
-  ([key, val]) => {
-    const filters = getUsersFiltersByKey(key);
-    const onFilter = getUsersOnFilterByKey(key);
-
-    if (filters && onFilter)
-      return {
-        title: `${val}`,
-        dataIndex: `${key}`,
-        key: `${key}`,
-        width: "400",
-        textWrap: "word-break",
-        filters,
-        onFilter,
-      };
-
-    return {
-      title: `${val}`,
-      dataIndex: `${key}`,
-      key: `${key}`,
-      width: "400",
-      textWrap: "word-break",
-      render: (text: string, record: UserListItemType) => {
-        const url = getUrlOfUserList(val as UserHeaderValue, record);
-        if (url) return <Link href={url}>{text}</Link>;
-        return text;
-      },
-    };
-  }
-);
+const columns = getColumns<UserListItemType>("USERS");
 
 // eslint-disable-next-line no-empty-pattern
 export default function Users({}: NextPageWithLayout) {

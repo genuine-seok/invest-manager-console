@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import {
-  ACCOUNTS_HEADERS,
+  ACCOUNT_HEADER,
   BROKER_FORMAT,
   BROKERS,
   ROUTER_PATH,
@@ -141,7 +141,7 @@ export const getUrlOfAccountList = (
 
 export const getAccountDataTextByKey = (key: AccountHeaderKey) => {
   try {
-    return ACCOUNTS_HEADERS[key];
+    return ACCOUNT_HEADER[key];
   } catch (e: unknown) {
     throw new Error("unavailable key for account text");
   }

@@ -1,21 +1,20 @@
 import React from "react";
 
 import {
-  ACCOUNTS_HEADERS,
+  ACCOUNT_HEADER,
   BROKERS,
   GENDER_ORIGIN,
-  sider,
+  MENU,
+  SIDER,
   USER_DETAIL,
-  USERS_HEADERS,
+  USER_HEADER,
 } from "../constant";
 
 export type Entries<T> = {
   [K in keyof T]: [K, T[K]];
 }[keyof T][];
 
-// type MenuIds = typeof sider[number]["id"];
-// type MenuNames = typeof sider[number]["name"];
-export type MenuKeywords = typeof sider[number]["keyword"];
+export type MenuKeywords = typeof SIDER[number]["keyword"];
 
 type NetworkErrorState = {
   result: "fail";
@@ -27,7 +26,7 @@ type SuccessState = {
 };
 export type ResultState = SuccessState | NetworkErrorState;
 
-export type MenuType = "DASHBOARD" | "ACCOUNTS" | "USERS" | "LOGOUT";
+export type MenuType = keyof typeof MENU;
 
 export type LoginData = {
   email: string;
@@ -52,8 +51,8 @@ export type UserType = {
 };
 export type UsersType = Array<UserType>;
 
-export type UserHeaderKey = keyof typeof USERS_HEADERS;
-export type UserHeaderValue = typeof USERS_HEADERS[UserHeaderKey];
+export type UserHeaderKey = keyof typeof USER_HEADER;
+export type UserHeaderValue = typeof USER_HEADER[UserHeaderKey];
 export type UserDetailKey = keyof typeof USER_DETAIL;
 export type UserDetailValue = typeof USER_DETAIL[UserDetailKey];
 
@@ -110,8 +109,8 @@ export type AccountsData = AccountData[];
 
 export type AccountStatusCode = 1 | 2 | 3 | 4 | 9999;
 export type Brokers = typeof BROKERS;
-export type AccountHeaderKey = keyof typeof ACCOUNTS_HEADERS;
-export type AccountHeaderValue = typeof ACCOUNTS_HEADERS[AccountHeaderKey];
+export type AccountHeaderKey = keyof typeof ACCOUNT_HEADER;
+export type AccountHeaderValue = typeof ACCOUNT_HEADER[AccountHeaderKey];
 
 export type AccountListItemType = {
   key: React.Key;
@@ -126,5 +125,7 @@ export type AccountListItemType = {
   is_active: string;
   created_at: string;
 };
+
+export type ListItemType = UserListItemType | AccountListItemType;
 
 export type GenderOriginKey = keyof typeof GENDER_ORIGIN;

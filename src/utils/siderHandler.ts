@@ -1,6 +1,6 @@
 import MenuItem from "antd/lib/menu/MenuItem";
 
-import { MENU_ICONS, sider } from "../constant";
+import { MENU_ICONS, SIDER } from "../constant";
 import { MenuKeywords } from "../types";
 
 const getItem = (
@@ -18,7 +18,7 @@ const getIconByKeyword = (keyword: MenuKeywords) => {
 };
 
 export const getMenuItems = () => {
-  return sider.map(({ id, name, keyword }) =>
+  return SIDER.map(({ id, name, keyword }) =>
     getItem(name, `${id}`, getIconByKeyword(keyword))
   );
 };

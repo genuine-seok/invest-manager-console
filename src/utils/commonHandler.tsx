@@ -1,0 +1,138 @@
+/* eslint-disable testing-library/render-result-naming-convention */
+/* eslint-disable react/display-name */
+import { ColumnsType } from "antd/lib/table";
+import Link from "next/link";
+
+import { ACCOUNT_HEADER, GENDER_ORIGIN, USER_HEADER } from "../constant";
+import {
+  AccountHeaderValue,
+  AccountListItemType,
+  GenderOriginKey,
+  MenuType,
+  UserHeaderValue,
+  UserListItemType,
+} from "../types";
+import { getUrlOfAccountList, getUrlOfUserList } from "./accountsHandler";
+import {
+  getAccountsFiltersByKey,
+  getAccountsOnFilterByKey,
+  getUsersFiltersByKey,
+  getUsersOnFilterByKey,
+} from "./filterHandler";
+
+export const getIsActiveText = (isActive: boolean) => {
+  return isActive ? "활성화" : "비활성화";
+};
+
+export const getGenderText = (str: GenderOriginKey) => {
+  try {
+    return GENDER_ORIGIN[str];
+  } catch (error: unknown) {
+    throw new Error(`unhandled gender origin key : ${error}`);
+  }
+};
+
+export const getDeIdentifiedName = (name: string) => {
+  const { length } = name;
+  if (length === 2) return "*".repeat(length - 1) + name[length - 1];
+  const newName = name[0] + "*".repeat(length - 1) + name[length - 1];
+  return newName;
+};
+
+const getHeaderByMenu = (type: MenuType): Record<string, unknown> => {
+  switch (type) {
+    case "ACCOUNTS":
+      return ACCOUNT_HEADER;
+    case "USERS":
+      return USER_HEADER;
+    default:
+      throw new Error("unhandled menu type for header");
+  }
+};
+
+const getFilterByMenu = (type: MenuType, key: string) => {
+  switch (type) {
+    case "ACCOUNTS":
+      return getUsersFiltersByKey(key);
+    case "DASHBOARD":
+      return null;
+    case "LOGOUT":
+      return null;
+    case "USERS":
+      return getAccountsFiltersByKey(key);
+    default:
+      return null;
+    // throw new Error("unhandled menu type for filter");
+  }
+};
+const getOnFilterByMenu = (type: MenuType, key: string) => {
+  switch (type) {
+    case "ACCOUNTS":
+      return getAccountsOnFilterByKey(key);
+    case "DASHBOARD":
+      return false;
+    case "LOGOUT":
+      return false;
+    case "USERS":
+      return getUsersOnFilterByKey(key);
+    default:
+      return false;
+  }
+};
+
+const getRenderByMenu = (type: MenuType, val: string) => {
+  switch (type) {
+    case "ACCOUNTS":
+      return function (text: string, record: AccountListItemType) {
+        const url = getUrlOfAccountList(val as AccountHeaderValue, record);
+        if (url) return <Link href={url}>{text}</Link>;
+        return text;
+      };
+    case "DASHBOARD":
+      return false;
+    case "LOGOUT":
+      return false;
+    case "USERS":
+      return function (text: string, record: UserListItemType) {
+        const url = getUrlOfUserList(val as UserHeaderValue, record);
+        if (url) return <Link href={url}>{text}</Link>;
+        return text;
+      };
+    default:
+      throw new Error("unhandled menu type for render function");
+  }
+};
+
+const makeFormattedColumnsByHeader = <T extends Record<string, any>>(
+  header: Record<string, unknown>,
+  type: MenuType
+): ColumnsType<T> => {
+  const columns = Object.entries(header).map(([key, val]) => {
+    const filters = getFilterByMenu(type, key);
+    const onFilter = getOnFilterByMenu(type, key);
+    const render = getRenderByMenu(type, val as string);
+    const options = [{ filters }, { onFilter }, { render }];
+    const base = {
+      title: `${val}`,
+      dataIndex: `${key}`,
+      key: `${key}`,
+      width: "400",
+      textWrap: "word-break",
+    };
+    const column = options.reduce((accum, curr) => {
+      if (!curr.filters && !curr.onFilter && !curr.render) return accum;
+      return { ...accum, ...curr };
+    }, base);
+
+    return column;
+  });
+  return columns;
+};
+
+export const getColumns = <T extends Record<string, any>>(
+  type: MenuType
+): ColumnsType<T> => {
+  const header = getHeaderByMenu(type);
+  const columns = makeFormattedColumnsByHeader<T>(header, type);
+  return columns;
+};

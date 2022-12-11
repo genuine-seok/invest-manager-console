@@ -1,4 +1,4 @@
-export const USERS_HEADERS = {
+export const USER_HEADER = {
   name: "고객명",
   email: "이메일 주소",
   account_count: "보유중인 계좌수",
