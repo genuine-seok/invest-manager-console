@@ -1,24 +1,17 @@
 /* eslint-disable camelcase */
+import { AxiosResponse } from "axios";
 import { useState } from "react";
-import { QueryKey, useQueries } from "react-query";
+import { useQueries } from "react-query";
 
 import { httpClient, TokenRepositoryImp } from "../api";
 import { AccountServiceImp } from "../api/AccountService";
+import { QUERY_KEYS } from "../constant";
 import { AccountsData } from "../types";
-import { getFormattedAccountsData, getValidParams } from "../utils";
+import { getFormattedAccountsData } from "../utils";
 
+// TODO: Context로 userService의 메서드들 (getUsers 등)을 로직 분리
 const tokenRepository = new TokenRepositoryImp();
 const AccountService = new AccountServiceImp(httpClient, tokenRepository);
-
-export const getAccountsByQueryKey = async ({
-  queryKey,
-}: {
-  queryKey: QueryKey;
-}) => {
-  // TODO: [1] 을 MODIFIER로 제공
-  const res = await AccountService.getAccounts(queryKey[1]);
-  return res;
-};
 
 interface UseAccountsProps {
   q?: string;
@@ -31,23 +24,20 @@ interface UseAccountsProps {
 // useAccounts시, getUserAPI를 받아와야되는게 맞나?
 export const useAccounts = (params: UseAccountsProps) => {
   const { q, id, user_id } = params;
-  const filteredParams = getValidParams(params);
   const [total, setTotal] = useState(0);
   const [_, { data, isLoading, isFetching, isError }] = useQueries([
     {
-      // TODO: 쿼리 파라미터 입력값에 대한 쿼리키 추가
-      // REFACTOR: 파라미터 전달 로직 개선
-      queryKey: [`get-accounts-total`, { q, id, user_id }],
-      queryFn: getAccountsByQueryKey,
-      select: (res: any) => res.data,
-      onSuccess: (accountsTotal: AccountsData[]) => {
+      queryKey: [QUERY_KEYS.ACCOUNT_LIST, { q, id, user_id }],
+      queryFn: () => AccountService.getAccounts({ q, id, user_id }),
+      select: (res: AxiosResponse<AccountsData, UseAccountsProps>) => res.data,
+      onSuccess: (accountsTotal: AccountsData) => {
         setTotal(accountsTotal.length);
       },
       staleTime: 0,
     },
     {
-      queryKey: [`get-accounts`, filteredParams],
-      queryFn: getAccountsByQueryKey,
+      queryKey: [QUERY_KEYS.ACCOUNT_DETAIL, { ...params }],
+      queryFn: () => AccountService.getAccounts({ ...params }),
       select: (res: any) => getFormattedAccountsData(res.data),
     },
   ]);

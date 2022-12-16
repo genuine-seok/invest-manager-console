@@ -31,15 +31,6 @@ export const getErrorMessage = (error: unknown): string => {
   return String(error);
 };
 
-export const getValidParams = (params: Record<string, any>) => {
-  const filtered = Object.entries(params).filter(([_, value]) => !!value);
-  const newParams = filtered.reduce((accum, [key, value]) => {
-    accum[key] = value;
-    return accum;
-  }, {} as { [key: string]: number | string });
-  return newParams;
-};
-
 export const getIsActiveText = (isActive: boolean) => {
   return isActive ? "활성화" : "비활성화";
 };

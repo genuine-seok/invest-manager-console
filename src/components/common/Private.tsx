@@ -16,8 +16,6 @@ interface PrivateProps {
 const items = getMenuItems();
 
 export function Private({ children }: PrivateProps) {
-  // TODO: 메뉴바 collapse에 따른 레이아웃 동적 확장 기능 추가
-  // const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
   const { logout, getToken } = useAuth();
 
