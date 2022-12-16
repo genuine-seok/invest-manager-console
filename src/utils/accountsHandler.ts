@@ -7,10 +7,10 @@ import {
   ROUTER_PATH,
 } from "../constant";
 import {
+  AccountData,
   AccountHeaderKey,
   AccountHeaderValue,
   AccountListItemType,
-  AccountsData,
   AccountStatusCode,
   Brokers,
   UserHeaderValue,
@@ -77,7 +77,7 @@ const getFormattedNumberByBrokerId = (id: keyof Brokers, number: string) => {
 };
 
 export const getFormattedAccountsData = (
-  data: AccountsData
+  data: AccountData[]
 ): Array<AccountListItemType> => {
   const newData = data.map(
     ({

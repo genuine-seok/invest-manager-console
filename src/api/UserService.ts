@@ -1,10 +1,17 @@
 import { AxiosInstance, AxiosResponse } from "axios";
 
-import { UserSettingResponseDTO, UserSettingType, UsersType } from "../types";
+import {
+  UserRequestParams,
+  UserSettingResponseDTO,
+  UserSettingType,
+  UserType,
+} from "../types";
 import { TokenRepository } from "./TokenRepository";
 
 interface UserService {
-  getUsers: (params?: any) => Promise<AxiosResponse<UsersType, any>>;
+  getUsers: (
+    params?: UserRequestParams
+  ) => Promise<AxiosResponse<UserType[], UserRequestParams>>;
   // TODO: 사용자 상세 정보 인자 확인
   //   getUser: (id: number) => Promise<ResultState>;
   getUserSettings: () => Promise<AxiosResponse<UserSettingResponseDTO, any>>;
@@ -22,9 +29,11 @@ export class UserServiceImp implements UserService {
   }
 
   // TODO: 만료된 토큰에 대한 처리 로직 추가
-  async getUsers(params?: any): Promise<AxiosResponse<UsersType, any>> {
+  async getUsers(
+    params?: UserRequestParams
+  ): Promise<AxiosResponse<UserType[], UserRequestParams>> {
     const token = this.tokenRepository.get();
-    const res = await this.httpClient.get<UsersType>("/users", {
+    const res = await this.httpClient.get<UserType[]>("/users", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

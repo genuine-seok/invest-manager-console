@@ -33,6 +33,19 @@ export type LoginData = {
   password: string;
 };
 
+export interface RequestParams {
+  q?: string;
+  _page?: number;
+  _limit?: number;
+}
+export interface AccountRequestParams extends RequestParams {
+  id?: string;
+  user_id?: string;
+}
+export interface UserRequestParams extends RequestParams {
+  id?: string;
+}
+
 export type UserType = {
   id: number;
   uuid: string;
@@ -49,7 +62,6 @@ export type UserType = {
   created_at: string;
   updated_at: string;
 };
-export type UsersType = Array<UserType>;
 
 export type UserHeaderKey = keyof typeof USER_HEADER;
 export type UserHeaderValue = typeof USER_HEADER[UserHeaderKey];
@@ -105,7 +117,6 @@ export type AccountData = {
   created_at: string;
   updated_at: string;
 };
-export type AccountsData = AccountData[];
 
 export type AccountStatusCode = 1 | 2 | 3 | 4 | 9999;
 export type Brokers = typeof BROKERS;

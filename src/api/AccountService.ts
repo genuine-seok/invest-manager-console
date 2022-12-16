@@ -1,10 +1,12 @@
 import { AxiosInstance, AxiosResponse } from "axios";
 
-import { AccountsData } from "../types";
+import { AccountData, AccountRequestParams } from "../types";
 import { TokenRepository } from "./TokenRepository";
 
 interface AccountService {
-  getAccounts: (params?: any) => Promise<AxiosResponse<AccountsData, any>>;
+  getAccounts: (
+    params?: AccountRequestParams
+  ) => Promise<AxiosResponse<AccountData[], AccountRequestParams>>;
 }
 
 export class AccountServiceImp implements AccountService {
@@ -17,9 +19,9 @@ export class AccountServiceImp implements AccountService {
     this.tokenRepository = tokenRepository;
   }
 
-  async getAccounts(params?: any) {
+  async getAccounts(params?: AccountRequestParams) {
     const token = this.tokenRepository.get();
-    const res = await this.httpClient.get<AccountsData>("/accounts", {
+    const res = await this.httpClient.get<AccountData[]>("/accounts", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

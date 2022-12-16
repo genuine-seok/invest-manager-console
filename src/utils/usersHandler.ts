@@ -2,12 +2,11 @@
 
 import { USER_DETAIL } from "../constant";
 import {
-  AccountsData,
+  AccountData,
   GenderOriginKey,
   UserDetailKey,
   UserListItemType,
   UserSettingsType,
-  UsersType,
   UserType,
 } from "../types";
 import { hasAccount } from "./accountsHandler";
@@ -29,9 +28,9 @@ const getAllowMarketingPushText = (isAllowed: boolean) => {
 };
 
 export const getFormattedUserList = (
-  users: UsersType,
+  users: UserType[],
   userSettings: UserSettingsType,
-  accounts: AccountsData
+  accounts: AccountData[]
 ) => {
   const userList = users.map(
     ({
