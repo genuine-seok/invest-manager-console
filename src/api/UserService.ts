@@ -15,7 +15,6 @@ interface UserService {
   // TODO: 사용자 상세 정보 인자 확인
   //   getUser: (id: number) => Promise<ResultState>;
   getUserSettings: () => Promise<AxiosResponse<UserSettingResponseDTO, any>>;
-  // TODO: return 타입 정의하기
 }
 
 export class UserServiceImp implements UserService {

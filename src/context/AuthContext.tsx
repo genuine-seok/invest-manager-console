@@ -9,15 +9,14 @@ interface State {
   getToken: () => string | null;
 }
 
-const AuthContext = createContext<State | null>(null);
-
-export function AuthProvider({
-  children,
-  authService,
-}: {
+interface AuthProviderProps {
   children: ReactNode;
   authService: AuthServiceImp;
-}) {
+}
+
+const AuthContext = createContext<State | null>(null);
+
+export function AuthProvider({ children, authService }: AuthProviderProps) {
   const signIn = authService.signIn.bind(authService);
   const getToken = authService.getToken.bind(authService);
   const logout = authService.logout.bind(authService);
