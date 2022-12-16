@@ -4,11 +4,11 @@ import React, { ReactElement, useState } from "react";
 
 import { PageLayout, Private } from "../../src/components/common";
 import { useUsers } from "../../src/hooks/useUsers";
-import { UserListItemType } from "../../src/types";
+import { User } from "../../src/types";
 import { getColumns } from "../../src/utils";
 import { NextPageWithLayout } from "../_app";
 
-const columns = getColumns<UserListItemType>("USERS");
+const columns = getColumns<User>("USERS");
 
 // eslint-disable-next-line no-empty-pattern
 export default function Users({}: NextPageWithLayout) {

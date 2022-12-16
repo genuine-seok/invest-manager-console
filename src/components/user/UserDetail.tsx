@@ -1,6 +1,6 @@
 import { Descriptions } from "antd";
 
-import { UserDetailKey, UserType } from "../../types";
+import { UserDetailKey, UserResponseDTO } from "../../types";
 import {
   getFormattedUserDetail,
   getUserDetailTextByKey,
@@ -8,12 +8,12 @@ import {
 } from "../../utils";
 
 interface UserDetailProps {
-  data: UserType;
+  data: UserResponseDTO;
 }
 
 export function UserDetail({ data }: UserDetailProps) {
   const items = Object.entries(data).filter((val) => {
-    const key = val[0] as keyof UserType;
+    const key = val[0] as keyof UserResponseDTO;
     return isUsedForUserDetail(key);
   });
 

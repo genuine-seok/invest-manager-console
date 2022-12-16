@@ -2,21 +2,21 @@
 
 import { USER_DETAIL } from "../constant";
 import {
-  AccountData,
+  AccountResponseDTO,
   GenderOriginKey,
+  User,
   UserDetailKey,
-  UserListItemType,
-  UserSettingsType,
-  UserType,
+  UserResponseDTO,
+  UserSettingResponseDTO,
 } from "../types";
-import { hasAccount } from "./accountsHandler";
-// Refactor: util 관련 함수 index entry point 수정
 import {
   getDeIdentifiedName,
+  getFormattedBirthDate,
+  getFormattedDate,
   getGenderText,
   getIsActiveText,
-} from "./commonHandler";
-import { getFormattedBirthDate, getFormattedDate } from "./dateHandler";
+  hasAccount,
+} from ".";
 
 const getDeIdentifiedPhoneNumber = (number: string) => {
   const reg = /-(\d{3,4})-/;
@@ -28,9 +28,9 @@ const getAllowMarketingPushText = (isAllowed: boolean) => {
 };
 
 export const getFormattedUserList = (
-  users: UserType[],
-  userSettings: UserSettingsType,
-  accounts: AccountData[]
+  users: UserResponseDTO[],
+  userSettings: UserSettingResponseDTO[],
+  accounts: AccountResponseDTO[]
 ) => {
   const userList = users.map(
     ({
@@ -99,7 +99,7 @@ export const getUserDetailTextByKey = (key: UserDetailKey) => {
   }
 };
 
-export const isUsedForUserDetail = (key: keyof UserType) => {
+export const isUsedForUserDetail = (key: keyof UserResponseDTO) => {
   switch (key) {
     case "id":
       return false;
@@ -142,10 +142,10 @@ export const getUsersFiltersByKey = (key: string) => {
 export const getUsersOnFilterByKey = (key: string) => {
   switch (key) {
     case "account_count":
-      return (value: string | number | boolean, record: UserListItemType) =>
+      return (value: string | number | boolean, record: User) =>
         hasAccount(record.account_count) === value;
     case "is_active":
-      return (value: string | number | boolean, record: UserListItemType) => {
+      return (value: string | number | boolean, record: User) => {
         const isActive = value as boolean;
         return record.is_active === getIsActiveText(isActive);
       };

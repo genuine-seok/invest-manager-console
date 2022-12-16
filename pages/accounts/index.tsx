@@ -6,11 +6,11 @@ import React, { ReactElement, useState } from "react";
 
 import { PageLayout, Private } from "../../src/components/common";
 import { useAccounts } from "../../src/hooks";
-import { AccountListItemType } from "../../src/types";
+import { Account } from "../../src/types";
 import { getColumns } from "../../src/utils";
 import { NextPageWithLayout } from "../_app";
 
-const columns = getColumns<AccountListItemType>("ACCOUNTS");
+const columns = getColumns<Account>("ACCOUNTS");
 
 export default function Accounts({}: NextPageWithLayout) {
   // TODO: pageOption 관련 공통 로직 리팩토링

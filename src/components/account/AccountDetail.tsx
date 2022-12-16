@@ -1,10 +1,14 @@
 /* eslint-disable camelcase */
 import { Descriptions } from "antd";
 
-import { AccountHeaderKey, AccountListItemType } from "../../types";
+import { Account, AccountHeaderKey } from "../../types";
 import { getAccountDataTextByKey } from "../../utils";
 
-export function AccountDetail({ data }: { data: AccountListItemType }) {
+interface AccountDetailProps {
+  data: Account;
+}
+
+export function AccountDetail({ data }: AccountDetailProps) {
   const items = Object.entries(data).filter(([key, _]) => key !== "key");
 
   return (

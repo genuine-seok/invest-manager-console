@@ -4,31 +4,31 @@ import {
   ACCOUNT_STATUS,
   BROKER_FORMAT,
   BROKERS,
-  ROUTER_PATH,
 } from "../constant";
+import { routes } from "../routes";
 import {
-  AccountData,
+  Account,
   AccountHeaderKey,
   AccountHeaderValue,
-  AccountListItemType,
-  AccountStatusCode,
+  AccountResponseDTO,
+  AccountStatusValue,
   Brokers,
+  User,
   UserHeaderValue,
-  UserListItemType,
 } from "../types";
 import { getDeIdentifiedName, getFormattedDate, getIsActiveText } from ".";
 
-const getAccountStatusByCode = (accountStatusCode: AccountStatusCode) => {
+const getAccountStatusByCode = (accountStatusCode: AccountStatusValue) => {
   switch (accountStatusCode) {
-    case 1:
+    case "1":
       return "입금대기";
-    case 2:
+    case "2":
       return "운용중";
-    case 3:
+    case "3":
       return "투자중지";
-    case 4:
+    case "4":
       return "해지";
-    case 9999:
+    case "9999":
       return "관리자확인 필요";
     default:
       throw new Error("유효하지 않은 accountStatusCode 입니다.");
@@ -77,8 +77,8 @@ const getFormattedNumberByBrokerId = (id: keyof Brokers, number: string) => {
 };
 
 export const getFormattedAccountsData = (
-  data: AccountData[]
-): Array<AccountListItemType> => {
+  data: AccountResponseDTO[]
+): Array<Account> => {
   const newData = data.map(
     ({
       id,
@@ -114,13 +114,10 @@ export const getFormattedAccountsData = (
 
 export const hasAccount = (accountNumber: number) => accountNumber > 0;
 
-export const getUrlOfUserList = (
-  val: UserHeaderValue,
-  record: UserListItemType
-) => {
+export const getUrlOfUserList = (val: UserHeaderValue, record: User) => {
   switch (val) {
     case "고객명":
-      return `${ROUTER_PATH.USERS}/${record.user_id}`;
+      return `${routes.USERS}/${record.user_id}`;
     default:
       return null;
   }
@@ -128,13 +125,13 @@ export const getUrlOfUserList = (
 
 export const getUrlOfAccountList = (
   val: AccountHeaderValue,
-  record: AccountListItemType
+  record: Account
 ) => {
   switch (val) {
     case "고객명":
-      return `${ROUTER_PATH.USERS}/${record.user_id}`;
+      return `${routes.USERS}/${record.user_id}`;
     case "계좌번호":
-      return `${ROUTER_PATH.ACCOUNTS}/${record.key}`;
+      return `${routes.ACCOUNTS}/${record.key}`;
     default:
       return null;
   }
@@ -173,18 +170,15 @@ export const getAccountsFiltersByKey = (key: string) => {
 export const getAccountsOnFilterByKey = (key: string) => {
   switch (key) {
     case "broker_name":
-      return (value: string | number | boolean, record: AccountListItemType) =>
+      return (value: string | number | boolean, record: Account) =>
         record.broker_name === value;
     case "is_active":
-      return (
-        value: string | number | boolean,
-        record: AccountListItemType
-      ) => {
+      return (value: string | number | boolean, record: Account) => {
         const isActive = value as boolean;
         return record.is_active === getIsActiveText(isActive);
       };
     case "status":
-      return (value: string | number | boolean, record: AccountListItemType) =>
+      return (value: string | number | boolean, record: Account) =>
         record.status === value;
     default:
       return false;

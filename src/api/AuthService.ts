@@ -1,11 +1,11 @@
 import { AxiosInstance } from "axios";
 
-import { AuthDataType, LoginData, ResultState } from "../types";
+import { AuthResponseDTO, ResultState, SignInRequestDTO } from "../types";
 import { getErrorMessage } from "../utils";
 import { TokenRepository } from "./TokenRepository";
 
 interface AuthService {
-  signIn: (data: LoginData) => Promise<ResultState>;
+  signIn: (data: SignInRequestDTO) => Promise<ResultState>;
   getToken: () => string | null;
   logout: () => void;
 }
@@ -21,9 +21,9 @@ export class AuthServiceImp implements AuthService {
     this.tokenRepository = tokenRepository;
   }
 
-  async signIn(data: LoginData): Promise<ResultState> {
+  async signIn(data: SignInRequestDTO): Promise<ResultState> {
     try {
-      const res = await this.httpClient.post<AuthDataType>("/login", data);
+      const res = await this.httpClient.post<AuthResponseDTO>("/login", data);
       this.tokenRepository.save(res.data.accessToken);
       return {
         result: "success",

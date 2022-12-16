@@ -2,13 +2,17 @@ import { AxiosResponse } from "axios";
 import { createContext, ReactNode, useContext, useMemo } from "react";
 
 import { UserServiceImp } from "../api/UserService";
-import { UserRequestParams, UserSettingResponseDTO, UserType } from "../types";
+import {
+  UserRequestParams,
+  UserResponseDTO,
+  UserSettingResponseDTO,
+} from "../types";
 
 interface State {
   getUsers: (
     params?: UserRequestParams
-  ) => Promise<AxiosResponse<UserType[], UserRequestParams>>;
-  getUserSettings: () => Promise<AxiosResponse<UserSettingResponseDTO, any>>;
+  ) => Promise<AxiosResponse<UserResponseDTO[], UserRequestParams>>;
+  getUserSettings: () => Promise<AxiosResponse<UserSettingResponseDTO[], any>>;
 }
 
 interface UserProviderProps {

@@ -6,20 +6,21 @@ import Link from "next/link";
 
 import { ACCOUNT_HEADER, GENDER_ORIGIN, USER_HEADER } from "../constant";
 import {
+  Account,
   AccountHeaderValue,
-  AccountListItemType,
   GenderOriginKey,
   MenuType,
+  User,
   UserHeaderValue,
-  UserListItemType,
 } from "../types";
 import {
   getAccountsFiltersByKey,
   getAccountsOnFilterByKey,
   getUrlOfAccountList,
   getUrlOfUserList,
-} from "./accountsHandler";
-import { getUsersFiltersByKey, getUsersOnFilterByKey } from "./usersHandler";
+  getUsersFiltersByKey,
+  getUsersOnFilterByKey,
+} from ".";
 
 export const getErrorMessage = (error: unknown): string => {
   if (axios.isAxiosError(error)) {
@@ -94,7 +95,7 @@ const getOnFilterByMenu = (type: MenuType, key: string) => {
 const getRenderByMenu = (type: MenuType, val: string) => {
   switch (type) {
     case "ACCOUNTS":
-      return function (text: string, record: AccountListItemType) {
+      return function (text: string, record: Account) {
         const url = getUrlOfAccountList(val as AccountHeaderValue, record);
         if (url) return <Link href={url}>{text}</Link>;
         return text;
@@ -104,7 +105,7 @@ const getRenderByMenu = (type: MenuType, val: string) => {
     case "LOGOUT":
       return false;
     case "USERS":
-      return function (text: string, record: UserListItemType) {
+      return function (text: string, record: User) {
         const url = getUrlOfUserList(val as UserHeaderValue, record);
         if (url) return <Link href={url}>{text}</Link>;
         return text;

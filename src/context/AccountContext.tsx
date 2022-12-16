@@ -2,12 +2,12 @@ import { AxiosResponse } from "axios";
 import { createContext, ReactNode, useContext, useMemo } from "react";
 
 import { AccountServiceImp } from "../api/AccountService";
-import { AccountData, AccountRequestParams } from "../types";
+import { AccountRequestParams, AccountResponseDTO } from "../types";
 
 interface State {
   getAccounts: (
     params?: AccountRequestParams
-  ) => Promise<AxiosResponse<AccountData[], AccountRequestParams>>;
+  ) => Promise<AxiosResponse<AccountResponseDTO[], AccountRequestParams>>;
 }
 
 interface AccountProviderProps {

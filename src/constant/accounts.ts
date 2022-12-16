@@ -24,12 +24,12 @@ export const ACCOUNT_HEADER = {
 } as const;
 
 export const ACCOUNT_STATUS = {
-  관리자확인필요: 9999,
-  입금대기: 1,
-  운용중: 2,
-  투자중지: 3,
-  해지: 4,
-};
+  관리자확인필요: "9999",
+  입금대기: "1",
+  운용중: "2",
+  투자중지: "3",
+  해지: "4",
+} as const;
 
 export const BROKER_FORMAT = {
   "209": "00-00000000-00",

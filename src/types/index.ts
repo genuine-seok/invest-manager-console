@@ -2,9 +2,9 @@ import React from "react";
 
 import {
   ACCOUNT_HEADER,
+  ACCOUNT_STATUS,
   BROKERS,
   GENDER_ORIGIN,
-  MENU,
   SIDER,
   USER_DETAIL,
   USER_HEADER,
@@ -14,7 +14,7 @@ export type Entries<T> = {
   [K in keyof T]: [K, T[K]];
 }[keyof T][];
 
-export type MenuKeywords = typeof SIDER[number]["keyword"];
+export type MenuType = typeof SIDER[number]["keyword"];
 
 type NetworkErrorState = {
   result: "fail";
@@ -25,13 +25,6 @@ type SuccessState = {
   data: any;
 };
 export type ResultState = SuccessState | NetworkErrorState;
-
-export type MenuType = keyof typeof MENU;
-
-export type LoginData = {
-  email: string;
-  password: string;
-};
 
 export interface RequestParams {
   q?: string;
@@ -46,7 +39,17 @@ export interface UserRequestParams extends RequestParams {
   id?: string;
 }
 
-export type UserType = {
+export type AuthResponseDTO = {
+  accessToken: string;
+  user: SignInRequestDTO;
+};
+
+export type SignInRequestDTO = {
+  email: string;
+  password: string;
+};
+
+export type UserResponseDTO = {
   id: number;
   uuid: string;
   photo: string;
@@ -68,7 +71,7 @@ export type UserHeaderValue = typeof USER_HEADER[UserHeaderKey];
 export type UserDetailKey = keyof typeof USER_DETAIL;
 export type UserDetailValue = typeof USER_DETAIL[UserDetailKey];
 
-export type UserListItemType = {
+export type User = {
   key: React.Key;
   name: string;
   user_id: number;
@@ -82,9 +85,8 @@ export type UserListItemType = {
   is_active: string;
   created_at: string;
 };
-export type UserListType = Array<UserListItemType>;
 
-export type UserSettingType = {
+export type UserSettingResponseDTO = {
   id: number;
   uuid: string;
   allow_marketing_push: boolean;
@@ -94,21 +96,14 @@ export type UserSettingType = {
   created_at: string;
   updated_at: string;
 };
-export type UserSettingsType = Array<UserSettingType>;
-export type UserSettingResponseDTO = Array<UserSettingType>;
 
-export type AuthDataType = {
-  accessToken: string;
-  user: LoginData;
-};
-
-export type AccountData = {
+export type AccountResponseDTO = {
   id: number;
   user_id: number;
   user_name: string;
   uuid: string;
   broker_id: keyof Brokers;
-  status: AccountStatusCode;
+  status: AccountStatusValue; // TODO: stringify?
   number: string;
   name: string;
   assets: string;
@@ -118,12 +113,13 @@ export type AccountData = {
   updated_at: string;
 };
 
-export type AccountStatusCode = 1 | 2 | 3 | 4 | 9999;
+export type AccountStatusKey = keyof typeof ACCOUNT_STATUS;
+export type AccountStatusValue = typeof ACCOUNT_STATUS[AccountStatusKey];
 export type Brokers = typeof BROKERS;
 export type AccountHeaderKey = keyof typeof ACCOUNT_HEADER;
 export type AccountHeaderValue = typeof ACCOUNT_HEADER[AccountHeaderKey];
 
-export type AccountListItemType = {
+export type Account = {
   key: React.Key;
   user_id: number;
   user_name: string;
@@ -136,7 +132,5 @@ export type AccountListItemType = {
   is_active: string;
   created_at: string;
 };
-
-export type ListItemType = UserListItemType | AccountListItemType;
 
 export type GenderOriginKey = keyof typeof GENDER_ORIGIN;

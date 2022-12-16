@@ -2,14 +2,14 @@ import { Table } from "antd";
 import { useState } from "react";
 
 import { useAccounts } from "../../hooks";
-import { AccountListItemType } from "../../types";
+import { Account } from "../../types";
 import { getColumns } from "../../utils";
 
 interface UserAccountListProps {
   id: string;
 }
 
-const columns = getColumns<AccountListItemType>("ACCOUNTS");
+const columns = getColumns<Account>("ACCOUNTS");
 
 export function UserAccountList({ id }: UserAccountListProps) {
   const [pageOption, setPageOption] = useState({

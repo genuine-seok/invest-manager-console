@@ -2,7 +2,7 @@
 import MenuItem from "antd/lib/menu/MenuItem";
 
 import { MENU_ICONS, SIDER } from "../constant";
-import { MenuKeywords } from "../types";
+import { MenuType } from "../types";
 
 const getItem = (
   label: React.ReactNode,
@@ -29,7 +29,7 @@ export const getMenuByKey = (key: string) => {
   }
 };
 
-const getMenuIconByKeyword = (keyword: MenuKeywords) => {
+const getMenuIconByKeyword = (keyword: MenuType) => {
   return MENU_ICONS[keyword];
 };
 
