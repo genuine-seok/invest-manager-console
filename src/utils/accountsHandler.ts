@@ -20,15 +20,15 @@ import { getDeIdentifiedName, getFormattedDate, getIsActiveText } from ".";
 
 const getAccountStatusByCode = (accountStatusCode: AccountStatusValue) => {
   switch (accountStatusCode) {
-    case "1":
+    case 1:
       return "입금대기";
-    case "2":
+    case 2:
       return "운용중";
-    case "3":
+    case 3:
       return "투자중지";
-    case "4":
+    case 4:
       return "해지";
-    case "9999":
+    case 9999:
       return "관리자확인 필요";
     default:
       throw new Error("유효하지 않은 accountStatusCode 입니다.");
