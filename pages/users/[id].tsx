@@ -29,7 +29,9 @@ export default function User() {
 User.getLayout = function getLayout(page: ReactElement) {
   return (
     <Private>
-      <PageLayout title="사용자 정보">{page}</PageLayout>
+      <PageLayout title="사용자 정보" hasGoBack>
+        {page}
+      </PageLayout>
     </Private>
   );
 };

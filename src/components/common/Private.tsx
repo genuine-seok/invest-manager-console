@@ -1,70 +1,29 @@
-import { Image, Layout, Menu } from "antd";
+import { Layout } from "antd";
 import { useRouter } from "next/router";
-import { MenuInfo } from "rc-menu/lib/interface";
 import React, { ReactNode, useEffect } from "react";
 
 import { useAuth } from "../../context/AuthContext";
 import { routes } from "../../routes";
-import { getMenuByKey, getMenuItems } from "../../utils";
-
-const { Content, Sider } = Layout;
+import { Sider } from "./Sider";
 
 interface PrivateProps {
   children: ReactNode;
 }
 
-const items = getMenuItems();
-
 export function Private({ children }: PrivateProps) {
   const router = useRouter();
-  const { logout, getToken } = useAuth();
-
-  const redirectToPublic = () => router.push(routes.LOGOUT);
-
-  const handleClick = ({ key }: MenuInfo) => {
-    const menu = getMenuByKey(key);
-    if (menu === "LOGOUT") {
-      logout();
-    }
-    router.push(routes[menu]);
-  };
+  const { getToken } = useAuth();
 
   // TODO: 유효한 토큰 체크 및 토큰 만료 정책
   // Local Storage 만료 정책 및 쿠키 vs Local Storage 비교 글 참조
   useEffect(() => {
     const isLoggedIn = !!getToken();
-    if (!isLoggedIn) redirectToPublic();
+    if (!isLoggedIn) router.push(routes.LOGOUT);
   });
 
   return (
     <Layout>
-      <Sider
-        style={{
-          overflow: "auto",
-          height: "100vh",
-          position: "fixed",
-          left: 0,
-          top: 0,
-          bottom: 0,
-        }}
-        width={200}
-        // collapsible
-        // collapsed={collapsed}
-        // onCollapse={(value) => setCollapsed(value)}
-      >
-        <Content style={{ padding: "20px" }}>
-          <Image width="100%" src="/images/img_logo_preface.png" />
-        </Content>
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["1"]}
-          // defaultOpenKeys={["sub1"]}
-          style={{ height: "100%", borderRight: 0 }}
-          items={items}
-          onClick={handleClick}
-        />
-      </Sider>
+      <Sider />
       <Layout style={{ marginLeft: 200 }}>{children}</Layout>
     </Layout>
   );

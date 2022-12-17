@@ -9,7 +9,7 @@ interface AccountDetailProps {
 }
 
 export function AccountDetail({ data }: AccountDetailProps) {
-  const items = Object.entries(data).filter(([key, _]) => key !== "key");
+  const items = Object.entries(data).filter(([key, _value]) => key !== "key");
 
   return (
     <Descriptions

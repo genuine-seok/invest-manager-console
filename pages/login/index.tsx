@@ -27,64 +27,50 @@ export default function Login({}: NextPageWithLayout) {
   };
 
   return (
-    <Row justify="center" align="middle" style={{ height: "100vh" }}>
-      <Col
-        span={6}
+    <>
+      <h1>로그인</h1>
+      <Content
         style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "32px",
+          background: "white",
+          minWidth: "360px",
+          padding: "18px",
+          borderRadius: "4px",
         }}
       >
-        <h1>로그인</h1>
-        <Content
-          style={{
-            background: "white",
-            minWidth: "360px",
-            padding: "18px",
-            borderRadius: "4px",
-          }}
+        <Form
+          onFinish={onFinish}
+          // TODO: UI validation 로직 추가
+          // onValuesChange={(cV, v) => {
+          //   console.log(cV);
+          //   console.log(v);
+          // }}
         >
-          <Form
-            onFinish={onFinish}
-            // TODO: UI validation 로직 추가
-            // onValuesChange={(cV, v) => {
-            //   console.log(cV);
-            //   console.log(v);
-            // }}
+          <Form.Item
+            name="email"
+            rules={[{ required: true, message: "아이디를 입력하세요" }]}
           >
-            <Form.Item
-              name="email"
-              rules={[{ required: true, message: "아이디를 입력하세요" }]}
-            >
-              <Input
-                prefix={<UserOutlined />}
-                placeholder="아이디를 입력하세요"
-              />
-            </Form.Item>
-            <Form.Item
-              name="password"
-              rules={[{ required: true, message: "비밀번호를 입력하세요" }]}
-            >
-              <Input.Password
-                prefix={<LockOutlined />}
-                placeholder="비밀번호를 입력하세요"
-              />
-            </Form.Item>
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                style={{ width: "100%" }}
-              >
-                로그인
-              </Button>
-            </Form.Item>
-          </Form>
-        </Content>
-      </Col>
-    </Row>
+            <Input
+              prefix={<UserOutlined />}
+              placeholder="아이디를 입력하세요"
+            />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "비밀번호를 입력하세요" }]}
+          >
+            <Input.Password
+              prefix={<LockOutlined />}
+              placeholder="비밀번호를 입력하세요"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+              로그인
+            </Button>
+          </Form.Item>
+        </Form>
+      </Content>
+    </>
   );
 }
 

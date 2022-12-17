@@ -1,4 +1,4 @@
-import { Layout } from "antd";
+import { Col, Layout, Row } from "antd";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect } from "react";
 
@@ -20,5 +20,21 @@ export function Public({ children }: PublicProps) {
     if (isLoggedIn) redirectToPrivate();
   });
 
-  return <Layout>{children}</Layout>;
+  return (
+    <Layout>
+      <Row justify="center" align="middle" style={{ height: "100vh" }}>
+        <Col
+          span={6}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "32px",
+          }}
+        >
+          {children}
+        </Col>
+      </Row>
+    </Layout>
+  );
 }
