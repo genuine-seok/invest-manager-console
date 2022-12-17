@@ -1,8 +1,9 @@
 import { Form, Table } from "antd";
 import Search from "antd/lib/input/Search";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 
 import { PageLayout, Private } from "../../src/components/common";
+import { usePageOption } from "../../src/hooks";
 import { useUsers } from "../../src/hooks/useUsers";
 import { User } from "../../src/types";
 import { getColumns } from "../../src/utils";
@@ -12,17 +13,12 @@ const columns = getColumns<User>("USERS");
 
 // eslint-disable-next-line no-empty-pattern
 export default function Users({}: NextPageWithLayout) {
-  const [pageOption, setPageOption] = useState({
-    q: "",
-    _page: 1,
-    _limit: 20,
-  });
-
+  const { pageOption, setPageOption } = usePageOption();
   const { total, userList, isLoading, isFetching } = useUsers(pageOption);
 
   const onSearch = (
     q: string,
-    event?:
+    _event?:
       | React.ChangeEvent<HTMLInputElement>
       | React.MouseEvent<HTMLElement, MouseEvent>
       | React.KeyboardEvent<HTMLInputElement>

@@ -2,10 +2,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Form, Table } from "antd";
 import Search from "antd/lib/input/Search";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 
 import { PageLayout, Private } from "../../src/components/common";
-import { useAccounts } from "../../src/hooks";
+import { useAccounts, usePageOption } from "../../src/hooks";
 import { Account } from "../../src/types";
 import { getColumns } from "../../src/utils";
 import { NextPageWithLayout } from "../_app";
@@ -13,12 +13,7 @@ import { NextPageWithLayout } from "../_app";
 const columns = getColumns<Account>("ACCOUNTS");
 
 export default function Accounts({}: NextPageWithLayout) {
-  // TODO: pageOption 관련 공통 로직 리팩토링
-  const [pageOption, setPageOption] = useState({
-    q: "",
-    _page: 1,
-    _limit: 10,
-  });
+  const { pageOption, setPageOption } = usePageOption();
   const {
     total,
     data,
@@ -29,7 +24,7 @@ export default function Accounts({}: NextPageWithLayout) {
 
   const onSearch = (
     q: string,
-    event?:
+    _event?:
       | React.ChangeEvent<HTMLInputElement>
       | React.MouseEvent<HTMLElement, MouseEvent>
       | React.KeyboardEvent<HTMLInputElement>

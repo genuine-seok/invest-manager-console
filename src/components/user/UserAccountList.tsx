@@ -1,7 +1,6 @@
 import { Table } from "antd";
-import { useState } from "react";
 
-import { useAccounts } from "../../hooks";
+import { useAccounts, usePageOption } from "../../hooks";
 import { Account } from "../../types";
 import { getColumns } from "../../utils";
 
@@ -12,11 +11,7 @@ interface UserAccountListProps {
 const columns = getColumns<Account>("ACCOUNTS");
 
 export function UserAccountList({ id }: UserAccountListProps) {
-  const [pageOption, setPageOption] = useState({
-    q: "",
-    _page: 1,
-    _limit: 10,
-  });
+  const { pageOption, setPageOption } = usePageOption();
   const { total, data, isLoading, isFetching, isError } = useAccounts({
     user_id: id,
   });
