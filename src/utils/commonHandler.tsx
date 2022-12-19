@@ -65,18 +65,19 @@ const getHeaderByMenu = (type: MenuType): Record<string, unknown> => {
 const getFilterByMenu = (type: MenuType, key: string) => {
   switch (type) {
     case "ACCOUNTS":
-      return getUsersFiltersByKey(key);
+      return getAccountsFiltersByKey(key);
     case "DASHBOARD":
       return null;
     case "LOGOUT":
       return null;
     case "USERS":
-      return getAccountsFiltersByKey(key);
+      return getUsersFiltersByKey(key);
     default:
       return null;
     // throw new Error("unhandled menu type for filter");
   }
 };
+
 const getOnFilterByMenu = (type: MenuType, key: string) => {
   switch (type) {
     case "ACCOUNTS":
@@ -115,27 +116,25 @@ const getRenderByMenu = (type: MenuType, val: string) => {
   }
 };
 
+// Fix: 필터링 기능 버그 픽스
 const makeFormattedColumnsByHeader = <T extends Record<string, any>>(
   header: Record<string, unknown>,
   type: MenuType
-): ColumnsType<T> => {
+) => {
   const columns = Object.entries(header).map(([key, val]) => {
     const filters = getFilterByMenu(type, key);
     const onFilter = getOnFilterByMenu(type, key);
     const render = getRenderByMenu(type, val as string);
-    const options = [{ filters }, { onFilter }, { render }];
-    const base = {
+    const column = {
       title: `${val}`,
       dataIndex: `${key}`,
       key: `${key}`,
       width: "400",
       textWrap: "word-break",
+      ...(filters && { filters }),
+      ...(onFilter && { onFilter }),
+      ...(render && { render }),
     };
-    const column = options.reduce((accum, curr) => {
-      if (!curr.filters && !curr.onFilter && !curr.render) return accum;
-      return { ...accum, ...curr };
-    }, base);
-
     return column;
   });
   return columns;
@@ -146,5 +145,5 @@ export const getColumns = <T extends Record<string, any>>(
 ): ColumnsType<T> => {
   const header = getHeaderByMenu(type);
   const columns = makeFormattedColumnsByHeader<T>(header, type);
-  return columns;
+  return columns as ColumnsType<T>;
 };
