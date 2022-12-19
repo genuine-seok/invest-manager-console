@@ -1,4 +1,6 @@
-import { Image, Layout, Menu } from "antd";
+import { Layout, Menu } from "antd";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { MenuInfo } from "rc-menu/lib/interface";
 
@@ -37,9 +39,18 @@ export function Sider() {
       // collapsed={collapsed}
       // onCollapse={(value) => setCollapsed(value)}
     >
-      <Content style={{ padding: "20px" }}>
-        <Image width="100%" src="/images/img_logo_preface.png" />
-      </Content>
+      {/* TODO: UI 상태(메뉴바 선택) 업데이트 */}
+      <Link href="/" style={{ height: "100px" }}>
+        <Content style={{ padding: ".5rem" }}>
+          <Image
+            alt="Logo image"
+            width={170}
+            height={52}
+            src="/images/menu_logo.png"
+          />
+          {/* <Image alt="Logo image" fill src={logoImage} /> */}
+        </Content>
+      </Link>
       <Menu
         theme="dark"
         mode="inline"
