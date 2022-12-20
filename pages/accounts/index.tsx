@@ -14,13 +14,7 @@ const columns = getColumns<Account>("ACCOUNTS");
 
 export default function Accounts({}: NextPageWithLayout) {
   const { pageOption, setPageOption } = usePageOption();
-  const {
-    total,
-    data,
-    isLoading,
-    isFetching,
-    // isError,
-  } = useAccounts(pageOption);
+  const { total, data, isLoading, isFetching } = useAccounts(pageOption);
 
   const onSearch = (
     q: string,

@@ -21,7 +21,6 @@ export default function Login({}: NextPageWithLayout) {
     if (res.result === "success") {
       goHome();
     } else {
-      // TODO: 에러 메시지 UI 표기 로직 추가
       console.log(res.reason);
     }
   };
@@ -37,14 +36,7 @@ export default function Login({}: NextPageWithLayout) {
           borderRadius: "4px",
         }}
       >
-        <Form
-          onFinish={onFinish}
-          // TODO: UI validation 로직 추가
-          // onValuesChange={(cV, v) => {
-          //   console.log(cV);
-          //   console.log(v);
-          // }}
-        >
+        <Form onFinish={onFinish}>
           <Form.Item
             name="email"
             rules={[{ required: true, message: "아이디를 입력하세요" }]}

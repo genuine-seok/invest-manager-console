@@ -11,8 +11,6 @@ export default function User() {
   const id = router.query.id as string;
   const { data, isLoading, isFetching } = useUsers({ id });
 
-  // TODO: fallBack UI 구현
-  // TODO: 없는 userID로 접근한 경우에 대한 에러 화면
   if (isLoading || isFetching) return <div>Loading</div>;
   if (data) {
     const userDetail = data[0];

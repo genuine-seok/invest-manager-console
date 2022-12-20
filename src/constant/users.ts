@@ -14,9 +14,9 @@ export const USER_HEADER = {
 export const USER_DETAIL = {
   name: "이름",
   age: "나이",
-  gender_origin: "성별", //
+  gender_origin: "성별",
   birth_date: "생년월일",
-  address: "주소", //
+  address: "주소",
   detail_address: "상세 주소",
   email: "이메일",
   phone_number: "핸드폰",

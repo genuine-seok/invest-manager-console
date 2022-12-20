@@ -8,7 +8,6 @@ import { useAccountContext } from "../context/AccountContext";
 import { AccountRequestParams, AccountResponseDTO } from "../types";
 import { getFormattedAccountsData } from "../utils";
 
-// useAccounts시, getUserAPI를 받아와야되는게 맞나?
 export const useAccounts = (params: AccountRequestParams) => {
   const { q, id, user_id } = params;
   const [total, setTotal] = useState(0);

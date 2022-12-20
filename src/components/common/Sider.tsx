@@ -35,11 +35,7 @@ export function Sider() {
         bottom: 0,
       }}
       width={200}
-      // collapsible
-      // collapsed={collapsed}
-      // onCollapse={(value) => setCollapsed(value)}
     >
-      {/* TODO: UI 상태(메뉴바 선택) 업데이트 */}
       <Link href="/" style={{ height: "100px" }}>
         <Content style={{ padding: ".5rem" }}>
           <Image
@@ -48,13 +44,12 @@ export function Sider() {
             height={52}
             src="/images/menu_logo.png"
           />
-          {/* <Image alt="Logo image" fill src={logoImage} /> */}
         </Content>
       </Link>
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={["1"]} // TODO: UI 상태에 따라 동적으로 할당
+        defaultSelectedKeys={["1"]}
         // defaultOpenKeys={["sub1"]}
         style={{ height: "100%", borderRight: 0 }}
         items={items}

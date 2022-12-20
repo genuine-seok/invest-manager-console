@@ -72,8 +72,6 @@ export const getFormattedUserList = (
   return userList;
 };
 
-// Refactor: getFormattedUserList와 함께 로직 리팩토링 가능
-// 👉 getFormattedValueByKey(key: KeyType, value: string)
 export const getFormattedUserDetail = (key: UserDetailKey, value: string) => {
   switch (key) {
     case "birth_date":

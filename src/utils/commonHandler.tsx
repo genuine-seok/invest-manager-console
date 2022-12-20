@@ -74,7 +74,6 @@ const getFilterByMenu = (type: MenuType, key: string) => {
       return getUsersFiltersByKey(key);
     default:
       return null;
-    // throw new Error("unhandled menu type for filter");
   }
 };
 
@@ -116,7 +115,6 @@ const getRenderByMenu = (type: MenuType, val: string) => {
   }
 };
 
-// Fix: 필터링 기능 버그 픽스
 const makeFormattedColumnsByHeader = <T extends Record<string, any>>(
   header: Record<string, unknown>,
   type: MenuType

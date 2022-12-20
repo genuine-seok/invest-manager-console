@@ -15,7 +15,6 @@ export class AuthServiceImp implements AuthService {
 
   private tokenRepository;
 
-  // TODO: HttpClient를 class로 확장 (fetch-httpClient)
   constructor(httpClient: AxiosInstance, tokenRepository: TokenRepository) {
     this.httpClient = httpClient;
     this.tokenRepository = tokenRepository;

@@ -12,7 +12,6 @@ export default function Account() {
     id,
   });
 
-  // TODO: fallBack UI 구현
   if (isLoading || isFetching) return <div>Loading</div>;
   if (data) {
     const accountDetail = data[0];

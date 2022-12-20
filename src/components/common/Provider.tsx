@@ -8,8 +8,6 @@ import { AccountProvider } from "../../context/AccountContext";
 import { AuthProvider } from "../../context/AuthContext";
 import { UserProvider } from "../../context/UserContext";
 
-// TODO: sessionStorage repository 교체 테스트
-// TODO: 모킹 데이터로 service 교체 테스트
 const tokenRepository = new TokenRepositoryImp();
 const accountService = new AccountServiceImp(httpClient, tokenRepository);
 const authService = new AuthServiceImp(httpClient, tokenRepository);

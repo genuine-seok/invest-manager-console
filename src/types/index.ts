@@ -103,7 +103,7 @@ export type AccountResponseDTO = {
   user_name: string;
   uuid: string;
   broker_id: keyof Brokers;
-  status: AccountStatusValue; // TODO: stringify?
+  status: AccountStatusValue;
   number: string;
   name: string;
   assets: string;

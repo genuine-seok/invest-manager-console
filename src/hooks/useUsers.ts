@@ -9,10 +9,9 @@ import { useUsersContext } from "../context/UserContext";
 import { User, UserRequestParams, UserResponseDTO } from "../types";
 import { getFormattedUserList } from "../utils";
 
-// TODO: users 정보와 account 정보를 공통으로 관리할 수 있는 커스텀 훅으로 개편하기
 export const useUsers = (params: UserRequestParams) => {
   const [total, setTotal] = useState(0);
-  const [userList, setUserList] = useState<User[]>([]); // TODO: 초기 상태 정의
+  const [userList, setUserList] = useState<User[]>([]);
   const userApi = useUsersContext();
   const accountApi = useAccountContext();
 
@@ -32,8 +31,8 @@ export const useUsers = (params: UserRequestParams) => {
       select: (res: AxiosResponse<UserResponseDTO[], UserRequestParams>) =>
         res.data,
       onSuccess: async (users: UserResponseDTO[]) => {
-        const userSettings = await userApi.getUserSettings(); // TODO : 예외 처리
-        const accounts = await accountApi.getAccounts(); // TODO : 예외 처리
+        const userSettings = await userApi.getUserSettings();
+        const accounts = await accountApi.getAccounts();
         const userList = getFormattedUserList(
           users,
           userSettings.data,

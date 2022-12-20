@@ -8,7 +8,6 @@ export class TokenRepositoryImp implements TokenRepository {
   private TOKEN_KEY = "ACCESS_TOKEN";
 
   save(token: string) {
-    // TODO: 방어 로직 추가
     try {
       localStorage.setItem(this.TOKEN_KEY, token);
     } catch (error: unknown) {

@@ -11,8 +11,6 @@ interface UserService {
   getUsers: (
     params?: UserRequestParams
   ) => Promise<AxiosResponse<UserResponseDTO[], UserRequestParams>>;
-  // TODO: 사용자 상세 정보 인자 확인
-  //   getUser: (id: number) => Promise<ResultState>;
   getUserSettings: () => Promise<AxiosResponse<UserSettingResponseDTO[], any>>;
 }
 
@@ -26,7 +24,6 @@ export class UserServiceImp implements UserService {
     this.tokenRepository = tokenRepository;
   }
 
-  // TODO: 만료된 토큰에 대한 처리 로직 추가
   async getUsers(
     params?: UserRequestParams
   ): Promise<AxiosResponse<UserResponseDTO[], UserRequestParams>> {
@@ -38,17 +35,6 @@ export class UserServiceImp implements UserService {
       params,
     });
     return res;
-    //   console.log(res);
-    //   return {
-    //     result: "success",
-    //     data: res.data,
-    //   };
-    // } catch (error: unknown) {
-    //   return {
-    //     result: "fail",
-    //     reason: getErrorMessage(error),
-    //   };
-    // }
   }
 
   async getUserSettings(): Promise<

@@ -14,8 +14,6 @@ export function Private({ children }: PrivateProps) {
   const router = useRouter();
   const { getToken } = useAuth();
 
-  // TODO: 유효한 토큰 체크 및 토큰 만료 정책
-  // Local Storage 만료 정책 및 쿠키 vs Local Storage 비교 글 참조
   useEffect(() => {
     const isLoggedIn = !!getToken();
     if (!isLoggedIn) router.push(routes.LOGOUT);
