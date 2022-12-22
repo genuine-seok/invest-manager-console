@@ -45,7 +45,7 @@ $ npm run server
 
 ```zsh
 # 새로운 터미널에서 실행
-$ npm run start
+$ npm run dev
 ```
 
 ### 테스트 계정
@@ -61,7 +61,31 @@ $ npm run start
 
 ## 주요 기능
 
-> TODO: 주요 기능 시연 데모 영상 추가
+> 주요 기능 시연 영상
+
+### 1. 로그인
+
+![login](https://user-images.githubusercontent.com/52701929/209163586-c1a4ba28-4a33-432b-97e6-55d023cf16f0.gif)
+
+### 2. 계좌 목록, 사용자 목록
+
+![account-user_list](https://user-images.githubusercontent.com/52701929/209164842-6150ae54-8f9a-4d84-bd44-05ddc52f67cf.gif)
+
+### 3. 페이지네이션
+
+![pagination](https://user-images.githubusercontent.com/52701929/209166049-8f0f45b9-d7d2-4626-93c5-619564d79331.gif)
+
+### 4. 필터링
+
+![filter](https://user-images.githubusercontent.com/52701929/209167459-d130ab29-3d19-4c0f-b630-9f7bd04d8c61.gif)
+
+### 5. 검색
+
+![search](https://user-images.githubusercontent.com/52701929/209168209-e2379e4e-ce96-4357-8426-ef1338e61ee7.gif)
+
+### 6. 상세 화면
+
+![detail](https://user-images.githubusercontent.com/52701929/209168651-b1d7102b-e756-48ab-ac7c-0cba17cf91f3.gif)
 
 <br>
 
