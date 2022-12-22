@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "server": "ts-node server.ts",
-    "server-test": "json-server ./db.json --port 4000",
+    "gen-env": "echo \"NEXT_PUBLIC_BASE_URL='http://localhost:4000'\" > .env.local",
     "gen": "ts-node ./src/data/generateData.ts",
     "postinstall": "husky install",
     "format": "prettier --cache --write .",
